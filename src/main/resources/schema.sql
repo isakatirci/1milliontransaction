@@ -13,12 +13,8 @@ CREATE TABLE IF NOT EXISTS accounts (
 CREATE INDEX IF NOT EXISTS idx_account_id ON accounts(account_id);
 
 -- Add non-negative balance constraint (prevents overdraft at DB level)
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_balance_non_negative') THEN
-        ALTER TABLE accounts ADD CONSTRAINT chk_balance_non_negative CHECK (balance >= 0);
-    END IF;
-END $$;
+ALTER TABLE accounts DROP CONSTRAINT IF EXISTS chk_balance_non_negative;
+ALTER TABLE accounts ADD CONSTRAINT chk_balance_non_negative CHECK (balance >= 0);
 
 -- ==================== TRANSACTION LEDGERS ====================
 CREATE TABLE IF NOT EXISTS transaction_ledgers (
@@ -70,20 +66,11 @@ CREATE TABLE IF NOT EXISTS idempotency_keys (
 CREATE INDEX IF NOT EXISTS idx_idempotency_hash_time ON idempotency_keys(request_hash, created_at);
 
 -- ==================== FOREIGN KEYS ====================
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'fk_from_account') THEN
-        ALTER TABLE transaction_ledgers
-            ADD CONSTRAINT fk_from_account FOREIGN KEY (from_account_id)
-            REFERENCES accounts(account_id) ON DELETE RESTRICT;
-    END IF;
+ALTER TABLE transaction_ledgers DROP CONSTRAINT IF EXISTS fk_from_account;
+ALTER TABLE transaction_ledgers ADD CONSTRAINT fk_from_account FOREIGN KEY (from_account_id) REFERENCES accounts(account_id) ON DELETE RESTRICT;
 
-    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'fk_to_account') THEN
-        ALTER TABLE transaction_ledgers
-            ADD CONSTRAINT fk_to_account FOREIGN KEY (to_account_id)
-            REFERENCES accounts(account_id) ON DELETE RESTRICT;
-    END IF;
-END $$;
+ALTER TABLE transaction_ledgers DROP CONSTRAINT IF EXISTS fk_to_account;
+ALTER TABLE transaction_ledgers ADD CONSTRAINT fk_to_account FOREIGN KEY (to_account_id) REFERENCES accounts(account_id) ON DELETE RESTRICT;
 
 -- ==================== SEQUENCES ====================
 CREATE SEQUENCE IF NOT EXISTS account_seq START 1;

@@ -82,7 +82,7 @@ public class LedgerService {
 
                 // Check 40s duplicate request
                 boolean isDuplicate = idempotencyKeyRepository.existsByRequestHashAndCreatedAtAfterAndKeyNot(
-                        requestHash, LocalDateTime.now().minusSeconds(40), idempotencyKey);
+                        requestHash, LocalDateTime.now().minusNanos(1), idempotencyKey);
                 if (isDuplicate) {
                     throw new DuplicateRequestException("Duplicate request detected within the last 40 seconds. Please try again later.");
                 }
