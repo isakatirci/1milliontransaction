@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface IdempotencyKeyRepository extends JpaRepository<IdempotencyKey, String> {
     Optional<IdempotencyKey> findByKey(String key);
+
+    boolean existsByRequestHashAndCreatedAtAfterAndKeyNot(String requestHash, java.time.LocalDateTime createdAt, String currentKey);
 }

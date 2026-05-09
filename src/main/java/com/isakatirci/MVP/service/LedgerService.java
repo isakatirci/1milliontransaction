@@ -8,6 +8,7 @@ import com.isakatirci.MVP.entity.IdempotencyKey;
 import com.isakatirci.MVP.entity.Outbox;
 import com.isakatirci.MVP.entity.TransactionLedger;
 import com.isakatirci.MVP.exception.AccountNotFoundException;
+import com.isakatirci.MVP.exception.DuplicateRequestException;
 import com.isakatirci.MVP.exception.IdempotencyConflictException;
 import com.isakatirci.MVP.exception.InsufficientBalanceException;
 import com.isakatirci.MVP.repository.AccountRepository;
@@ -79,6 +80,13 @@ public class LedgerService {
                     return deserializeResponse(ik.getResponseSnapshot());
                 }
 
+                // Check 40s duplicate request
+                boolean isDuplicate = idempotencyKeyRepository.existsByRequestHashAndCreatedAtAfterAndKeyNot(
+                        requestHash, LocalDateTime.now().minusSeconds(40), idempotencyKey);
+                if (isDuplicate) {
+                    throw new DuplicateRequestException("Duplicate request detected within the last 40 seconds. Please try again later.");
+                }
+
                 // Execute the transfer
                 TransferResponse response = performTransfer(idempotencyKey, request);
 
@@ -95,7 +103,7 @@ public class LedgerService {
                 idempotencyKeyRepository.save(ik);
 
                 return response;
-            } catch (IdempotencyConflictException | InsufficientBalanceException |
+            } catch (IdempotencyConflictException | DuplicateRequestException | InsufficientBalanceException |
                      AccountNotFoundException | IllegalArgumentException e) {
                 status.setRollbackOnly();
                 throw e;
@@ -194,7 +202,7 @@ public class LedgerService {
         for (int attempt = 0; attempt < MAX_RETRIES; attempt++) {
             try {
                 return operation.execute();
-            } catch (IdempotencyConflictException | InsufficientBalanceException |
+            } catch (IdempotencyConflictException | DuplicateRequestException | InsufficientBalanceException |
                      AccountNotFoundException | IllegalArgumentException e) {
                 // Non-retryable business exceptions — fail immediately
                 throw e;
@@ -222,6 +230,7 @@ public class LedgerService {
             String content = request.getFromAccountId() + "|" +
                     request.getToAccountId() + "|" +
                     request.getAmount().toPlainString() + "|" +
+                    (request.getValueDate() != null ? request.getValueDate().toString() : "") + "|" +
                     (request.getMetadata() != null ? request.getMetadata() : "");
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(content.getBytes(StandardCharsets.UTF_8));

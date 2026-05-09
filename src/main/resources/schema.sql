@@ -67,6 +67,8 @@ CREATE TABLE IF NOT EXISTS idempotency_keys (
     expires_at TIMESTAMP
 );
 
+CREATE INDEX IF NOT EXISTS idx_idempotency_hash_time ON idempotency_keys(request_hash, created_at);
+
 -- ==================== FOREIGN KEYS ====================
 DO $$
 BEGIN

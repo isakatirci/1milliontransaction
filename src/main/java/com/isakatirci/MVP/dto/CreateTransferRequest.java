@@ -26,5 +26,9 @@ public class CreateTransferRequest {
     @DecimalMin(value = "0.01", message = "amount must be greater than 0")
     private BigDecimal amount;
 
+    @NotNull(message = "valueDate is required")
+    @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.isakatirci.MVP.config.CustomLocalDateDeserializer.class)
+    private java.time.LocalDate valueDate;
+
     private String metadata;
 }
