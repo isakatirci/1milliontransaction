@@ -34,14 +34,19 @@ const ACCOUNTS = [
 export function setup() {
     console.log('Setting up test data...');
 
-    // Create test accounts
+    // Create test accounts using JSON body
     for (let i = 0; i < ACCOUNTS.length; i++) {
+        const payload = JSON.stringify({
+            accountId: ACCOUNTS[i],
+            initialBalance: 1000000
+        });
         const response = http.post(
-            `${BASE_URL}/api/v1/accounts?accountId=${ACCOUNTS[i]}&initialBalance=1000000`,
-            {}
+            `${BASE_URL}/api/v1/accounts`,
+            payload,
+            { headers: { 'Content-Type': 'application/json' } }
         );
         check(response, {
-            'Account creation successful': (r) => r.status === 200,
+            'Account creation successful': (r) => r.status === 201 || r.status === 409,
         });
     }
 
@@ -61,12 +66,11 @@ export default function (data) {
     const fromAccount = accounts[fromIdx];
     const toAccount = accounts[toIdx];
     const amount = 100 + Math.floor(Math.random() * 900);
-    const transactionId = `txn-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const idempotencyKey = `k6-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
     // Execute transfer
     const startTime = Date.now();
     const payload = JSON.stringify({
-        transactionId,
         fromAccountId: fromAccount,
         toAccountId: toAccount,
         amount: amount.toString(),
@@ -76,6 +80,7 @@ export default function (data) {
     const response = http.post(`${BASE_URL}/api/v1/transfer`, payload, {
         headers: {
             'Content-Type': 'application/json',
+            'Idempotency-Key': idempotencyKey,
         },
         timeout: '30s',
     });
@@ -92,11 +97,11 @@ export default function (data) {
     errorRate.add(!isSuccess);
 
     check(response, {
-        'Transfer successful': (r) => r.status === 200,
+        'Transfer successful': (r) => r.status === 201,
         'Response has transaction ID': (r) => {
             try {
                 const body = JSON.parse(r.body);
-                return body.transactionId === transactionId;
+                return body.transactionId != null;
             } catch {
                 return false;
             }
