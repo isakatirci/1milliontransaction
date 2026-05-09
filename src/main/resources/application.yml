@@ -1,0 +1,82 @@
+spring:
+  application:
+    name: ledger-service
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        generate_statistics: false
+        jdbc:
+          batch_size: 50
+          fetch_size: 1000
+        order_inserts: true
+        order_updates: true
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ledger_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 10000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
+      leak-detection-threshold: 60000
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+      platform: postgresql
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 10
+    max-connections: 10000
+    accept-count: 100
+    connection-timeout: 20000ms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  health:
+    db:
+      enabled: true
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  metrics:
+    tags:
+      application: ledger-service
+  simple:
+    metrics:
+      export:
+        enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.ledger: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+settlement:
+  service:
+    url: ${SETTLEMENT_SERVICE_URL:http://settlement:8081/settle}
