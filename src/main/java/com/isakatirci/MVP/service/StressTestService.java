@@ -20,6 +20,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.URI;
 import java.util.function.Consumer;
 
 @Service
@@ -86,12 +90,16 @@ public class StressTestService {
         });
     }
 
+    private final HttpClient httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+
     private void executeTest(int totalRequests, Consumer<StressTestStatus> progressListener) throws Exception {
         int transactionCountPerPair = totalRequests / 2;
         BigDecimal amount = new BigDecimal("5.00");
         BigDecimal initialBalance = new BigDecimal("100000.00");
 
-        // 1. SETUP: Ensure accounts exist
+        // 1. SETUP: Ensure accounts exist (Local call is fine for setup)
         currentStatus.setMessage("Preparing accounts...");
         if (progressListener != null) progressListener.accept(currentStatus);
         
@@ -115,26 +123,39 @@ public class StressTestService {
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failCount = new AtomicInteger(0);
 
+        String baseUrl = "http://ledger-lb/api/v1/transfer"; // Internal network URL
+
         currentStatus.setMessage("Launching " + totalRequests + " virtual threads...");
         if (progressListener != null) progressListener.accept(currentStatus);
 
-        // 3. EXECUTION: Virtual Threads
+        // 3. EXECUTION: Virtual Threads hitting the Load Balancer
         try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
             for (TestRequest testReq : requests) {
                 executor.submit(() -> {
                     try {
                         readyLatch.countDown();
-                        startLatch.await(); // Sync point for all threads
+                        startLatch.await(); 
 
-                        CreateTransferRequest req = new CreateTransferRequest();
-                        req.setFromAccountId(testReq.from);
-                        req.setToAccountId(testReq.to);
-                        req.setAmount(testReq.amount);
-                        req.setMetadata("stress-test-ui");
+                        String payload = String.format(
+                                "{\"fromAccountId\":\"%s\",\"toAccountId\":\"%s\",\"amount\":%s,\"valueDate\":\"2026-05-10\",\"metadata\":\"stress-test-ui\"}",
+                                testReq.from, testReq.to, testReq.amount
+                        );
 
-                        ledgerService.createTransfer(testReq.idempotencyKey, req);
-                        int s = successCount.incrementAndGet();
-                        currentStatus.setSuccessful(s);
+                        java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                                .uri(java.net.URI.create(baseUrl))
+                                .header("Content-Type", "application/json")
+                                .header("Idempotency-Key", testReq.idempotencyKey)
+                                .POST(java.net.http.HttpRequest.BodyPublishers.ofString(payload))
+                                .build();
+
+                        java.net.http.HttpResponse<String> response = httpClient.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+
+                        if (response.statusCode() == 201) {
+                            int s = successCount.incrementAndGet();
+                            currentStatus.setSuccessful(s);
+                        } else {
+                            throw new RuntimeException("HTTP " + response.statusCode() + ": " + response.body());
+                        }
                     } catch (Exception e) {
                         int f = failCount.incrementAndGet();
                         currentStatus.setFailed(f);
@@ -144,10 +165,8 @@ public class StressTestService {
                                 currentStatus.getErrorMessages().add(error);
                             }
                         }
-                        log.debug("Transfer failed: {}", error);
                     } finally {
                         doneLatch.countDown();
-                        // Report progress every 100 requests or at the end
                         int completed = successCount.get() + failCount.get();
                         if (completed % 100 == 0 || completed == totalRequests) {
                             if (progressListener != null) progressListener.accept(getStatus());

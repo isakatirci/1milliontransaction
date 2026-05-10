@@ -131,14 +131,18 @@ public class LedgerService {
         String toId = request.getToAccountId();
         BigDecimal amount = request.getAmount();
 
+        log.info("Starting transfer: {} -> {} | amount={}", fromId, toId, amount);
+
         // Lock in deterministic order to prevent deadlocks
         Account fromAccount, toAccount;
         if (fromId.compareTo(toId) < 0) {
+            log.debug("Locking accounts in order: {}, {}", fromId, toId);
             fromAccount = accountRepository.findByAccountIdWithLock(fromId)
                     .orElseThrow(() -> new AccountNotFoundException(fromId));
             toAccount = accountRepository.findByAccountIdWithLock(toId)
                     .orElseThrow(() -> new AccountNotFoundException(toId));
         } else {
+            log.debug("Locking accounts in order: {}, {}", toId, fromId);
             toAccount = accountRepository.findByAccountIdWithLock(toId)
                     .orElseThrow(() -> new AccountNotFoundException(toId));
             fromAccount = accountRepository.findByAccountIdWithLock(fromId)
@@ -147,11 +151,13 @@ public class LedgerService {
 
         // Balance check (also enforced by DB CHECK constraint)
         if (fromAccount.getBalance().compareTo(amount) < 0) {
+            log.error("Transfer failed: Insufficient balance in account {}", fromId);
             throw new InsufficientBalanceException(fromId);
         }
 
         // Create transaction ledger record
         String transactionId = UUID.randomUUID().toString();
+        log.debug("Creating ledger record for transaction {}", transactionId);
         TransactionLedger txn = TransactionLedger.builder()
                 .transactionId(transactionId)
                 .fromAccountId(fromId)
@@ -167,6 +173,7 @@ public class LedgerService {
         fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
         toAccount.setBalance(toAccount.getBalance().add(amount));
         accountRepository.saveAll(List.of(fromAccount, toAccount));
+        log.debug("Balances updated for accounts {} and {}", fromId, toId);
 
         // Create outbox event (same transaction)
         String payload = String.format(
