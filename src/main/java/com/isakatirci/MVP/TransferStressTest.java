@@ -168,6 +168,7 @@ public class TransferStressTest {
                   "fromAccountId": "%s",
                   "toAccountId": "%s",
                   "amount": %.2f,
+                  "valueDate": "2026-05-10",
                   "metadata": "stress-test"
                 }
                 """, from, to, amount);
