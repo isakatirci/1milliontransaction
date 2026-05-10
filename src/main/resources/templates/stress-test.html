@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP Ledger | Stress Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --success: #22c55e;
+            --fail: #ef4444;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.05em;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-value.success { color: var(--success); }
+        .stat-value.fail { color: var(--fail); }
+
+        .progress-container {
+            margin-top: 2rem;
+        }
+
+        .progress-bar-bg {
+            background: var(--bg);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(to right, var(--accent), #818cf8);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease-out;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .btn {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            color: var(--bg);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .log-container {
+            background: #000;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            color: #d1d5db;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .log-time { color: var(--text-muted); margin-right: 0.5rem; }
+        .log-info { color: var(--accent); }
+        .log-success { color: var(--success); }
+        .log-error { color: var(--fail); }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: var(--border);
+            margin-left: 1rem;
+        }
+
+        .status-running { background: var(--accent); color: var(--bg); }
+        .status-completed { background: var(--success); color: var(--bg); }
+        .status-failed { background: var(--fail); color: var(--text); }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>STRESS TEST ENGINE</h1>
+        <p class="subtitle">High-concurrency Ledger Validation — 10,000 Transactions</p>
+    </header>
+
+    <div class="main-container">
+        <div class="card">
+            <h2 style="margin-bottom: 1.5rem; display: flex; align-items: center;">
+                Control Panel
+                <span id="statusBadge" class="status-badge" th:text="${status.status}">IDLE</span>
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Throughput (TPS)</span>
+                    <span id="tpsValue" class="stat-value" th:text="${#numbers.formatDecimal(status.tps, 1, 2)}">0.00</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Duration</span>
+                    <span id="durationValue" class="stat-value"><span id="msValue" th:text="${status.durationMs}">0</span>ms</span>
+                </div>
+            </div>
+            <button id="startBtn" class="btn">Fire 10,000 Requests</button>
+            <p id="messageText" style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;" th:text="${status.message}">Ready to start.</p>
+        </div>
+
+        <div class="card">
+            <h2 style="margin-bottom: 1.5rem;">Live Execution Stats</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Successful</span>
+                    <span id="successCount" class="stat-value success" th:text="${status.successful}">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Failed</span>
+                    <span id="failCount" class="stat-value fail" th:text="${status.failed}">0</span>
+                </div>
+                <div class="stat-item full-width" style="margin-top: 1rem;">
+                    <span class="stat-label">Progress</span>
+                    <div class="progress-container">
+                        <div class="progress-bar-bg">
+                            <div id="progressBar" class="progress-bar-fill"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">
+                            <span id="progressPercent">0%</span>
+                            <span id="progressCount">0 / 10,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card full-width">
+            <h2 style="margin-bottom: 1rem;">System Logs</h2>
+            <div id="log" class="log-container">
+                <div class="log-entry"><span class="log-time">[SYSTEM]</span> Initialized stress test engine. Waiting for command...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        const progressCount = document.getElementById('progressCount');
+        const successCount = document.getElementById('successCount');
+        const failCount = document.getElementById('failCount');
+        const tpsValue = document.getElementById('tpsValue');
+        const durationValue = document.getElementById('msValue');
+        const statusBadge = document.getElementById('statusBadge');
+        const messageText = document.getElementById('messageText');
+        const logContainer = document.getElementById('log');
+
+        function addLog(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            const time = new Date().toLocaleTimeString();
+            entry.innerHTML = `<span class="log-time">[${time}]</span> <span class="log-${type}">${message}</span>`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        startBtn.addEventListener('click', () => {
+            startBtn.disabled = true;
+            statusBadge.className = 'status-badge status-running pulse';
+            statusBadge.innerText = 'RUNNING';
+            addLog('Starting bidirectional stress test...', 'info');
+
+            const eventSource = new EventSource('/api/v1/stress-test/progress');
+
+            eventSource.addEventListener('progress', (event) => {
+                const data = JSON.parse(event.data);
+                
+                // Update UI
+                successCount.innerText = data.successful;
+                failCount.innerText = data.failed;
+                tpsValue.innerText = data.tps.toFixed(2);
+                durationValue.innerText = data.durationMs;
+                messageText.innerText = data.message;
+                
+                const total = data.totalRequests;
+                const completed = data.successful + data.failed;
+                const percent = (completed / total) * 100;
+                
+                progressBar.style.width = `${percent}%`;
+                progressPercent.innerText = `${Math.round(percent)}%`;
+                progressCount.innerText = `${completed} / ${total}`;
+
+                if (data.status === 'COMPLETED' || data.status === 'FAILED') {
+                    statusBadge.className = `status-badge status-${data.status.toLowerCase()}`;
+                    statusBadge.innerText = data.status;
+                    startBtn.disabled = false;
+                    addLog(data.message, data.status === 'COMPLETED' ? 'success' : 'error');
+                    eventSource.close();
+                }
+            });
+
+            eventSource.onerror = (err) => {
+                console.error("SSE Error:", err);
+                addLog('Connection lost. The test might still be running in background.', 'error');
+                eventSource.close();
+                startBtn.disabled = false;
+            };
+        });
+    </script>
+</body>
+</html>
