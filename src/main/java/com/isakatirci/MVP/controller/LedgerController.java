@@ -29,6 +29,7 @@ public class LedgerController {
     private final LedgerService ledgerService;
     private final AccountRepository accountRepository;
     private final TransactionLedgerRepository transactionRepository;
+    private final com.isakatirci.MVP.repository.IdempotencyKeyRepository idempotencyKeyRepository;
 
     /**
      * Create a transfer between two accounts.
@@ -43,21 +44,16 @@ public class LedgerController {
     }
 
     /**
-     * Get transfer details by transaction ID.
+     * Get transfer details by Idempotency Key (GUID).
      */
-    @GetMapping("/transfers/{transactionId}")
-    public ResponseEntity<TransferResponse> getTransfer(@PathVariable String transactionId) {
-        return transactionRepository.findByTransactionId(transactionId)
-                .map(txn -> {
-                    Account from = accountRepository.findByAccountId(txn.getFromAccountId()).orElse(null);
-                    Account to = accountRepository.findByAccountId(txn.getToAccountId()).orElse(null);
-
+    @GetMapping("/transfers/{idempotencyKey}")
+    public ResponseEntity<TransferResponse> getTransfer(@PathVariable String idempotencyKey) {
+        return idempotencyKeyRepository.findByKey(idempotencyKey)
+                .map(ik -> {
                     TransferResponse response = TransferResponse.builder()
-                            .transactionId(txn.getTransactionId())
-                            .status(txn.getStatus().toString())
-                            .fromBalance(from != null ? from.getBalance() : null)
-                            .toBalance(to != null ? to.getBalance() : null)
-                            .timestamp(System.currentTimeMillis())
+                            .transactionId(ik.getTransactionId())
+                            .status(ik.getStatus())
+                            .timestamp(ik.getCreatedAt().atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli())
                             .build();
                     return ResponseEntity.ok(response);
                 })
@@ -73,7 +69,7 @@ public class LedgerController {
                 .map(account -> {
                     Map<String, Object> response = new LinkedHashMap<>();
                     response.put("accountId", account.getAccountId());
-                    response.put("balance", account.getBalance());
+                    response.put("balance", ledgerService.calculateBalance(accountId));
                     response.put("timestamp", System.currentTimeMillis());
                     return ResponseEntity.ok(response);
                 })
@@ -87,14 +83,26 @@ public class LedgerController {
     public ResponseEntity<Map<String, Object>> createAccount(@Valid @RequestBody CreateAccountRequest request) {
         Account account = Account.builder()
                 .accountId(request.getAccountId())
-                .balance(request.getInitialBalance())
                 .createdAt(LocalDateTime.now())
                 .build();
         accountRepository.save(account);
 
+        if (request.getInitialBalance() != null && request.getInitialBalance().compareTo(java.math.BigDecimal.ZERO) > 0) {
+            TransactionLedger initTxn = TransactionLedger.builder()
+                    .transactionId(java.util.UUID.randomUUID().toString())
+                    .fromAccountId("SYSTEM")
+                    .toAccountId(request.getAccountId())
+                    .amount(request.getInitialBalance())
+                    .status(TransactionLedger.TransactionStatus.COMPLETED)
+                    .metadata("Initial Balance")
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            transactionRepository.save(initTxn);
+        }
+
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("accountId", account.getAccountId());
-        response.put("balance", account.getBalance());
+        response.put("balance", request.getInitialBalance());
         response.put("timestamp", System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

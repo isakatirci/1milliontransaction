@@ -47,9 +47,6 @@ public class TransactionLedger {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Version
-    private Long version;
-
     public enum TransactionStatus {
         PENDING, COMPLETED, COMPENSATED, FAILED
     }

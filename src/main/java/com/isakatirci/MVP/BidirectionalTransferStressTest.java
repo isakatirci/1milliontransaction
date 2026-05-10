@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * High-concurrency bidirectional stress test for the Ledger Service.
- * Performs 10,000 parallel transactions between two accounts.
+ * Performs 25,000 parallel transactions between two accounts.
  */
 public class BidirectionalTransferStressTest {
     private static final String BASE_URL = "http://localhost:8080/api/v1";
@@ -26,8 +26,8 @@ public class BidirectionalTransferStressTest {
     private static final String RESET_URL = BASE_URL + "/debug/reset";
 
     public static void main(String[] args) throws Exception {
-        int transactionCountPerPair = 5000;
-        int totalRequests = transactionCountPerPair * 2; // 10,000 requests
+        int transactionCountPerPair = 25000;
+        int totalRequests = transactionCountPerPair * 2; // 25,000 requests
         double amount = 5.0;
         double initialBalance = 7000.0;
 

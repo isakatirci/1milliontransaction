@@ -2,21 +2,18 @@ package com.isakatirci.MVP.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isakatirci.MVP.dto.CreateTransferRequest;
+import com.isakatirci.MVP.dto.KafkaTransferMessage;
 import com.isakatirci.MVP.dto.TransferResponse;
-import com.isakatirci.MVP.entity.Account;
 import com.isakatirci.MVP.entity.IdempotencyKey;
-import com.isakatirci.MVP.entity.Outbox;
 import com.isakatirci.MVP.entity.TransactionLedger;
-import com.isakatirci.MVP.exception.AccountNotFoundException;
-import com.isakatirci.MVP.exception.DuplicateRequestException;
 import com.isakatirci.MVP.exception.IdempotencyConflictException;
-import com.isakatirci.MVP.exception.InsufficientBalanceException;
-import com.isakatirci.MVP.repository.AccountRepository;
 import com.isakatirci.MVP.repository.IdempotencyKeyRepository;
-import com.isakatirci.MVP.repository.OutboxRepository;
 import com.isakatirci.MVP.repository.TransactionLedgerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,7 +24,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.HexFormat;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,194 +32,129 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LedgerService {
 
-    private final AccountRepository accountRepository;
     private final TransactionLedgerRepository transactionRepository;
-    private final OutboxRepository outboxRepository;
     private final IdempotencyKeyRepository idempotencyKeyRepository;
     private final TransactionTemplate transactionTemplate;
     private final JdbcTemplate jdbcTemplate;
     private final ObjectMapper objectMapper;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    private static final int MAX_RETRIES = 5;
-    private static final long INITIAL_BACKOFF_MS = 100;
-
-    /**
-     * Creates a transfer with full idempotency support.
-     *
-     * @param idempotencyKey unique key from Idempotency-Key header
-     * @param request        transfer request details
-     * @return transfer response
-     */
     public TransferResponse createTransfer(String idempotencyKey, CreateTransferRequest request) throws Exception {
-        // Validate self-transfer
         if (request.getFromAccountId().equals(request.getToAccountId())) {
             throw new IllegalArgumentException("Cannot transfer to the same account");
         }
 
         String requestHash = computeHash(request);
+        String transactionId = UUID.randomUUID().toString();
 
-        // Execute with retry logic — each retry gets a fresh transaction
-        return executeWithRetry(() -> transactionTemplate.execute(status -> {
-            try {
-                // Check idempotency inside transaction
-                Optional<IdempotencyKey> existingKey = idempotencyKeyRepository.findByKey(idempotencyKey);
-                if (existingKey.isPresent()) {
-                    IdempotencyKey ik = existingKey.get();
-
-                    // Same key but different request body → conflict
-                    if (!ik.getRequestHash().equals(requestHash)) {
-                        throw new IdempotencyConflictException(idempotencyKey);
-                    }
-
-                    // Same key, same body → return cached response
-                    log.info("Idempotent hit for key: {}", idempotencyKey);
-                    return deserializeResponse(ik.getResponseSnapshot());
+        return transactionTemplate.execute(status -> {
+            Optional<IdempotencyKey> existingKey = idempotencyKeyRepository.findByKey(idempotencyKey);
+            if (existingKey.isPresent()) {
+                IdempotencyKey ik = existingKey.get();
+                if (!ik.getRequestHash().equals(requestHash)) {
+                    throw new IdempotencyConflictException(idempotencyKey);
                 }
-
-                // Check 40s duplicate request
-            /*    boolean isDuplicate = idempotencyKeyRepository.existsByRequestHashAndCreatedAtAfterAndKeyNot(
-                        requestHash, LocalDateTime.now().minusNanos(1), idempotencyKey);
-                if (isDuplicate) {
-                    throw new DuplicateRequestException("Duplicate request detected within the last 40 seconds. Please try again later.");
-                }*/
-
-                // Execute the transfer
-                TransferResponse response = performTransfer(idempotencyKey, request);
-
-                // Store idempotency key with response snapshot
-                IdempotencyKey ik = IdempotencyKey.builder()
-                        .key(idempotencyKey)
-                        .requestHash(requestHash)
-                        .transactionId(response.getTransactionId())
-                        .status("COMPLETED")
-                        .responseSnapshot(serializeResponse(response))
-                        .createdAt(LocalDateTime.now())
-                        .expiresAt(LocalDateTime.now().plusHours(24))
-                        .build();
-                idempotencyKeyRepository.save(ik);
-
-                return response;
-            } catch (IdempotencyConflictException | DuplicateRequestException | InsufficientBalanceException |
-                     AccountNotFoundException | IllegalArgumentException e) {
-                status.setRollbackOnly();
-                throw e;
-            } catch (RuntimeException e) {
-                status.setRollbackOnly();
-                throw e;
+                return deserializeResponse(ik.getResponseSnapshot());
             }
-        }));
+
+            TransferResponse response = TransferResponse.builder()
+                    .transactionId(transactionId)
+                    .status("PENDING")
+                    .timestamp(System.currentTimeMillis())
+                    .build();
+
+            IdempotencyKey ik = IdempotencyKey.builder()
+                    .key(idempotencyKey)
+                    .requestHash(requestHash)
+                    .transactionId(transactionId)
+                    .status("PENDING")
+                    .responseSnapshot(serializeResponse(response))
+                    .createdAt(LocalDateTime.now())
+                    .expiresAt(LocalDateTime.now().plusHours(24))
+                    .build();
+            idempotencyKeyRepository.save(ik);
+
+            KafkaTransferMessage msg = KafkaTransferMessage.builder()
+                    .idempotencyKey(idempotencyKey)
+                    .transactionId(transactionId)
+                    .fromAccountId(request.getFromAccountId())
+                    .toAccountId(request.getToAccountId())
+                    .amount(request.getAmount())
+                    .metadata(request.getMetadata())
+                    .build();
+
+            kafkaTemplate.send("transfer-requests", transactionId, msg);
+
+            return response;
+        });
+    }
+
+    @KafkaListener(topics = "transfer-requests", groupId = "ledger-group")
+    public void processTransferRequest(KafkaTransferMessage msg) {
+        try {
+            transactionTemplate.execute(status -> {
+                BigDecimal fromBalance = calculateBalance(msg.getFromAccountId());
+
+                TransactionLedger txn = TransactionLedger.builder()
+                        .transactionId(msg.getTransactionId())
+                        .fromAccountId(msg.getFromAccountId())
+                        .toAccountId(msg.getToAccountId())
+                        .amount(msg.getAmount())
+                        .metadata(msg.getMetadata())
+                        .createdAt(LocalDateTime.now())
+                        .build();
+
+                IdempotencyKey ik = idempotencyKeyRepository.findByKey(msg.getIdempotencyKey()).orElse(null);
+
+                if (fromBalance.compareTo(msg.getAmount()) >= 0) {
+                    txn.setStatus(TransactionLedger.TransactionStatus.COMPLETED);
+                    transactionRepository.save(txn);
+                    if (ik != null) {
+                        ik.setStatus("COMPLETED");
+                        idempotencyKeyRepository.save(ik);
+                    }
+                    kafkaTemplate.send("transfer-success", msg.getTransactionId(), msg);
+                } else {
+                    txn.setStatus(TransactionLedger.TransactionStatus.FAILED);
+                    transactionRepository.save(txn);
+                    if (ik != null) {
+                        ik.setStatus("FAILED");
+                        idempotencyKeyRepository.save(ik);
+                    }
+                    kafkaTemplate.send("transfer-failed", msg.getTransactionId(), msg);
+                }
+                return null;
+            });
+        } catch (Exception e) {
+            log.error("Failed to process transfer request: " + msg.getTransactionId(), e);
+        }
+    }
+
+    @KafkaListener(topics = "transfer-success", groupId = "websocket-group")
+    public void onTransferSuccess(KafkaTransferMessage msg) {
+        messagingTemplate.convertAndSend("/topic/transfers", "SUCCESS:" + msg.getIdempotencyKey());
+    }
+
+    @KafkaListener(topics = "transfer-failed", groupId = "websocket-group")
+    public void onTransferFailed(KafkaTransferMessage msg) {
+        messagingTemplate.convertAndSend("/topic/transfers", "FAILED:" + msg.getIdempotencyKey());
+    }
+
+    public BigDecimal calculateBalance(String accountId) {
+        BigDecimal bal = transactionRepository.calculateBalance(accountId);
+        return bal != null ? bal : BigDecimal.ZERO;
     }
 
     public void resetDatabase() {
         transactionTemplate.execute(status -> {
-            log.info("Resetting database: Deleting all records in order to respect FKs...");
             jdbcTemplate.execute("DELETE FROM transaction_ledgers");
             jdbcTemplate.execute("DELETE FROM outbox");
             jdbcTemplate.execute("DELETE FROM idempotency_keys");
             jdbcTemplate.execute("DELETE FROM accounts");
-            log.info("Database reset complete.");
             return null;
         });
     }
-
-    private TransferResponse performTransfer(String idempotencyKey, CreateTransferRequest request) {
-        String fromId = request.getFromAccountId();
-        String toId = request.getToAccountId();
-        BigDecimal amount = request.getAmount();
-
-        // Lock in deterministic order to prevent deadlocks
-        Account fromAccount, toAccount;
-        if (fromId.compareTo(toId) < 0) {
-            fromAccount = accountRepository.findByAccountIdWithLock(fromId)
-                    .orElseThrow(() -> new AccountNotFoundException(fromId));
-            toAccount = accountRepository.findByAccountIdWithLock(toId)
-                    .orElseThrow(() -> new AccountNotFoundException(toId));
-        } else {
-            toAccount = accountRepository.findByAccountIdWithLock(toId)
-                    .orElseThrow(() -> new AccountNotFoundException(toId));
-            fromAccount = accountRepository.findByAccountIdWithLock(fromId)
-                    .orElseThrow(() -> new AccountNotFoundException(fromId));
-        }
-
-        // Balance check (also enforced by DB CHECK constraint)
-        if (fromAccount.getBalance().compareTo(amount) < 0) {
-            throw new InsufficientBalanceException(fromId);
-        }
-
-        // Create transaction ledger record
-        String transactionId = UUID.randomUUID().toString();
-        TransactionLedger txn = TransactionLedger.builder()
-                .transactionId(transactionId)
-                .fromAccountId(fromId)
-                .toAccountId(toId)
-                .amount(amount)
-                .status(TransactionLedger.TransactionStatus.COMPLETED)
-                .metadata(request.getMetadata())
-                .createdAt(LocalDateTime.now())
-                .build();
-        transactionRepository.save(txn);
-
-        // Update balances atomically
-        fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
-        toAccount.setBalance(toAccount.getBalance().add(amount));
-        accountRepository.saveAll(List.of(fromAccount, toAccount));
-
-        // Create outbox event (same transaction)
-        String payload = String.format(
-                "{\"transactionId\":\"%s\",\"fromAccountId\":\"%s\",\"toAccountId\":\"%s\",\"amount\":%s}",
-                transactionId, fromId, toId, amount
-        );
-        Outbox event = Outbox.builder()
-                .eventId(UUID.randomUUID().toString())
-                .eventType("TRANSFER_COMPLETED")
-                .payload(payload)
-                .status(Outbox.OutboxStatus.PENDING)
-                .retryCount(0)
-                .createdAt(LocalDateTime.now())
-                .build();
-        outboxRepository.save(event);
-
-        log.info("Transfer completed: {} | {} -> {} | amount={}", transactionId, fromId, toId, amount);
-
-        return TransferResponse.builder()
-                .transactionId(transactionId)
-                .status("COMPLETED")
-                .fromBalance(fromAccount.getBalance())
-                .toBalance(toAccount.getBalance())
-                .timestamp(System.currentTimeMillis())
-                .build();
-    }
-
-    // ==================== Retry Logic ====================
-
-    private <T> T executeWithRetry(RetryableOperation<T> operation) throws Exception {
-        Exception lastException = null;
-
-        for (int attempt = 0; attempt < MAX_RETRIES; attempt++) {
-            try {
-                return operation.execute();
-            } catch (IdempotencyConflictException | DuplicateRequestException | InsufficientBalanceException |
-                     AccountNotFoundException | IllegalArgumentException e) {
-                // Non-retryable business exceptions — fail immediately
-                throw e;
-            } catch (Exception e) {
-                lastException = e;
-                if (attempt < MAX_RETRIES - 1) {
-                    long backoffMs = INITIAL_BACKOFF_MS * (long) Math.pow(2, attempt);
-                    log.warn("Retry {} after {}ms: {}", attempt + 1, backoffMs, e.getMessage());
-                    Thread.sleep(backoffMs);
-                }
-            }
-        }
-        throw lastException;
-    }
-
-    @FunctionalInterface
-    interface RetryableOperation<T> {
-        T execute() throws Exception;
-    }
-
-    // ==================== Hashing & Serialization ====================
 
     private String computeHash(CreateTransferRequest request) {
         try {
@@ -244,7 +175,6 @@ public class LedgerService {
         try {
             return objectMapper.writeValueAsString(response);
         } catch (Exception e) {
-            log.error("Failed to serialize response", e);
             return "{}";
         }
     }
@@ -253,8 +183,7 @@ public class LedgerService {
         try {
             return objectMapper.readValue(json, TransferResponse.class);
         } catch (Exception e) {
-            log.error("Failed to deserialize response", e);
-            return TransferResponse.builder().status("COMPLETED").timestamp(System.currentTimeMillis()).build();
+            return TransferResponse.builder().status("PENDING").timestamp(System.currentTimeMillis()).build();
         }
     }
 }

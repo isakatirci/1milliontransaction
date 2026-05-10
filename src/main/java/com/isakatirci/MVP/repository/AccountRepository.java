@@ -11,6 +11,4 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByAccountId(String accountId);
 
-    @Query(value = "SELECT * FROM accounts WHERE account_id = ?1 FOR UPDATE", nativeQuery = true)
-    Optional<Account> findByAccountIdWithLock(String accountId);
 }

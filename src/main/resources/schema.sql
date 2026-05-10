@@ -1,20 +1,24 @@
 -- schema.sql — MVP Ledger Service
 -- All statements are idempotent (safe to re-run)
 
+-- ==================== CLEANUP ====================
+DROP TABLE IF EXISTS transaction_ledgers CASCADE;
+DROP TABLE IF EXISTS outbox CASCADE;
+DROP TABLE IF EXISTS idempotency_keys CASCADE;
+DROP TABLE IF EXISTS accounts CASCADE;
+DROP SEQUENCE IF EXISTS account_seq CASCADE;
+DROP SEQUENCE IF EXISTS transaction_seq CASCADE;
+
 -- ==================== ACCOUNTS ====================
 CREATE TABLE IF NOT EXISTS accounts (
     id BIGSERIAL PRIMARY KEY,
     account_id VARCHAR(50) NOT NULL UNIQUE,
-    balance DECIMAL(18, 2) NOT NULL DEFAULT 0,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version BIGINT DEFAULT 0
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX IF NOT EXISTS idx_account_id ON accounts(account_id);
 
--- Add non-negative balance constraint (prevents overdraft at DB level)
-ALTER TABLE accounts DROP CONSTRAINT IF EXISTS chk_balance_non_negative;
-ALTER TABLE accounts ADD CONSTRAINT chk_balance_non_negative CHECK (balance >= 0);
+-- Removed chk_balance_non_negative constraint because balance is no longer stored
 
 -- ==================== TRANSACTION LEDGERS ====================
 CREATE TABLE IF NOT EXISTS transaction_ledgers (
@@ -25,8 +29,7 @@ CREATE TABLE IF NOT EXISTS transaction_ledgers (
     amount DECIMAL(18, 2) NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     metadata TEXT,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version BIGINT DEFAULT 0
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX IF NOT EXISTS idx_txn_id ON transaction_ledgers(transaction_id);
@@ -65,12 +68,7 @@ CREATE TABLE IF NOT EXISTS idempotency_keys (
 
 CREATE INDEX IF NOT EXISTS idx_idempotency_hash_time ON idempotency_keys(request_hash, created_at);
 
--- ==================== FOREIGN KEYS ====================
-ALTER TABLE transaction_ledgers DROP CONSTRAINT IF EXISTS fk_from_account;
-ALTER TABLE transaction_ledgers ADD CONSTRAINT fk_from_account FOREIGN KEY (from_account_id) REFERENCES accounts(account_id) ON DELETE RESTRICT;
-
-ALTER TABLE transaction_ledgers DROP CONSTRAINT IF EXISTS fk_to_account;
-ALTER TABLE transaction_ledgers ADD CONSTRAINT fk_to_account FOREIGN KEY (to_account_id) REFERENCES accounts(account_id) ON DELETE RESTRICT;
+-- Foreign keys removed to allow external/SYSTEM accounts in Event Sourcing
 
 -- ==================== SEQUENCES ====================
 CREATE SEQUENCE IF NOT EXISTS account_seq START 1;

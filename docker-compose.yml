@@ -14,6 +14,36 @@ services:
       - ledger-network
     restart: unless-stopped
 
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: ledger-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - ledger-network
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: ledger-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - ledger-network
+    restart: unless-stopped
+
   ledger-service:
     image: eclipse-temurin:21-jdk-alpine
     container_name: ledger-service
@@ -24,6 +54,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ledger_password
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SERVER_PORT: 8080
     ports:
       - "8080:8080"
@@ -31,9 +62,10 @@ services:
       - ./target/MVP-0.0.1-SNAPSHOT.jar:/app/app.jar
     depends_on:
       - postgres
+      - kafka
     networks:
       - ledger-network
-    command: sh -c "sleep 15 && java -jar /app/app.jar"
+    command: sh -c "sleep 20 && java -jar /app/app.jar"
     restart: unless-stopped
 
   ledger-lb:
@@ -45,6 +77,34 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - ledger-service
+    networks:
+      - ledger-network
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: ledger-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ledger.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - ledger-network
+    restart: unless-stopped
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: ledger-kafka-ui
+    environment:
+      KAFKA_CLUSTERS_0_NAME: ledger-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    ports:
+      - "8081:8080"
+    depends_on:
+      - kafka
     networks:
       - ledger-network
     restart: unless-stopped

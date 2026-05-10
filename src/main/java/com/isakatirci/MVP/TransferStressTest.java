@@ -122,12 +122,35 @@ public class TransferStressTest {
             System.out.printf("Failed: %d%n", failCount.get());
             System.out.printf("----------------%n%n");
 
-            // 4. VERIFICATION
+            // 4. WAIT FOR ASYNC BATCH PROCESSING
+            System.out.printf("Waiting for asynchronous batch to process all PENDING transfers...%n");
+            waitForProcessing(client);
+
+            // 5. VERIFICATION
             System.out.printf("Verifying final balances...%n");
             verifyBalance(client, "ACC001", 2000.0); // 7000 - 5000
             verifyBalance(client, "ACC002", 7000.0); // 7000 + 5000 - 5000
             verifyBalance(client, "ACC003", 12000.0); // 7000 + 5000
         }
+    }
+
+    private static void waitForProcessing(HttpClient client) throws Exception {
+        // We can poll the balance until it reaches the expected or until timeout
+        // Since we know ACC001 should reach 2000, we can poll ACC001.
+        long maxWait = System.currentTimeMillis() + 30000;
+        while (System.currentTimeMillis() < maxWait) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(String.format(BALANCE_URL, "ACC001")))
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.body().contains("\"balance\":2000.0") || response.body().contains("\"balance\":2000")) {
+                System.out.println("Async processing completed.");
+                return;
+            }
+            Thread.sleep(500);
+        }
+        System.out.println("Warning: Async processing timed out.");
     }
 
     private static void setupAccount(HttpClient client, String accountId, double balance) throws Exception {

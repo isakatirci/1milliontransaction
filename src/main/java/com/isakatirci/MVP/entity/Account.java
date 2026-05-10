@@ -23,12 +23,8 @@ public class Account {
     @Column(nullable = false, unique = true, length = 50)
     private String accountId;
 
-    @Column(nullable = false, precision = 18, scale = 2)
-    private BigDecimal balance;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Version
-    private Long version;
 }

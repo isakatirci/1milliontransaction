@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Event-Driven Stress Test</title>
+    <!-- SockJS & STOMP -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: rgba(30, 41, 59, 0.7);
+            --primary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --text: #f8fafc;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-weight: 600;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        input[type="number"] {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 150px;
+            outline: none;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .value-success { color: var(--success); }
+        .value-danger { color: var(--danger); }
+        .value-primary { color: var(--primary); }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-panel">
+        <h1>Event-Driven Kafka Stress Test</h1>
+        <p style="text-align: center; color: #cbd5e1; margin-bottom: 2rem;">
+            Test the async Command/Event architecture via WebSockets. Watch Kafka workers process transactions in real-time.
+        </p>
+
+        <div class="control-group">
+            <input type="number" id="txCount" value="10000" min="100" max="1000000" step="1000">
+            <button id="startBtn" onclick="startTest()">Start Test</button>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="valTotal">0</div>
+                <div class="stat-label">Target</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value value-success" id="valSuccess">0</div>
+                <div class="stat-label">Success</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value value-danger" id="valFailed">0</div>
+                <div class="stat-label">Failed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value value-primary" id="valTps">0</div>
+                <div class="stat-label">TPS</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let stompClient = null;
+        let successCount = 0;
+        let failedCount = 0;
+        let targetCount = 0;
+        let startTime = 0;
+        let tpsInterval = null;
+
+        function connect() {
+            var socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+            stompClient.debug = null; // Disable debug logging for performance
+            
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/transfers', function (message) {
+                    handleMessage(message.body);
+                });
+            });
+        }
+
+        function handleMessage(msg) {
+            if (msg.startsWith("SUCCESS")) {
+                successCount++;
+            } else if (msg.startsWith("FAILED")) {
+                failedCount++;
+            }
+            updateUI();
+        }
+
+        function updateUI() {
+            let processed = successCount + failedCount;
+            
+            document.getElementById('valSuccess').innerText = successCount.toLocaleString();
+            document.getElementById('valFailed').innerText = failedCount.toLocaleString();
+            
+            if (targetCount > 0) {
+                let pct = (processed / targetCount) * 100;
+                document.getElementById('progressBar').style.width = Math.min(pct, 100) + '%';
+                
+                if (processed >= targetCount) {
+                    clearInterval(tpsInterval);
+                    document.getElementById('startBtn').disabled = false;
+                    document.getElementById('startBtn').innerText = "Start Test";
+                }
+            }
+        }
+
+        function calculateTPS() {
+            if (startTime === 0) return;
+            let now = Date.now();
+            let elapsedSec = (now - startTime) / 1000;
+            if (elapsedSec > 0) {
+                let processed = successCount + failedCount;
+                let tps = Math.floor(processed / elapsedSec);
+                document.getElementById('valTps').innerText = tps.toLocaleString();
+            }
+        }
+
+        function startTest() {
+            let countInput = document.getElementById('txCount').value;
+            targetCount = parseInt(countInput);
+            
+            if (targetCount <= 0) return;
+
+            // Reset UI
+            successCount = 0;
+            failedCount = 0;
+            startTime = Date.now();
+            document.getElementById('valTotal').innerText = targetCount.toLocaleString();
+            document.getElementById('progressBar').style.width = '0%';
+            
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('startBtn').innerText = "Running...";
+
+            if (tpsInterval) clearInterval(tpsInterval);
+            tpsInterval = setInterval(calculateTPS, 1000);
+
+            // Call API
+            fetch('/api/v1/debug/start-stress-test?count=' + targetCount, { method: 'POST' })
+                .then(res => res.text())
+                .then(text => console.log(text))
+                .catch(err => console.error(err));
+        }
+
+        // Connect WebSocket on load
+        window.onload = connect;
+    </script>
+</body>
+</html>
