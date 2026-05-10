@@ -184,9 +184,11 @@ Bu komut, `target/MVP-0.0.1-SNAPSHOT.jar` dosyasını oluşturur. Docker bu dosy
 # Eski veritabanı varsa tamamen sil (ilk kurulumda veya şema değişikliğinde):
 docker compose down -v
 
-# Tüm servisleri başlat:
-docker compose up -d
+# Tüm servisleri başlat (Ölçekli olarak):
+docker compose up -d --scale ledger-service=2
 ```
+
+> **Önemli:** `ledger-service` instance sayısını istediğiniz gibi artırabilirsiniz. Nginx (`ledger-lb`) gelen trafiği otomatik olarak bu instance'lar arasında paylaştıracaktır. Artık stres testine **http://localhost:8080/stress-test** adresinden ulaşabilirsiniz.
 
 > **Not:** İlk başlatmada Docker, image'ları internetten indireceği için 2-5 dakika sürebilir.
 
@@ -447,6 +449,25 @@ Ardından IDE'niz üzerinden (IntelliJ, Eclipse, VS Code) `MvpApplication.java` 
 | **Nginx** | Alpine | Reverse proxy / Load balancer |
 | **pgAdmin** | 4 | PostgreSQL yönetim paneli |
 | **Kafka UI** | Latest | Kafka yönetim paneli |
+
+---
+
+## 📈 Yatay Ölçeklendirme (Horizontal Scaling)
+
+Bu proje, bulut bilişim prensiplerine uygun olarak yatayda ölçeklenebilecek şekilde tasarlanmıştır.
+
+### Nasıl Ölçeklenir?
+Aşağıdaki komutla sistemi 3 (veya daha fazla) uygulama sunucusuyla ayağa kaldırabilirsiniz:
+
+```bash
+docker compose up -d --scale ledger-service=3
+```
+
+### Ölçekleme Sırasında Neler Olur?
+1.  **Load Balancing (Nginx):** `ledger-lb` servisi, gelen HTTP ve WebSocket isteklerini `ip_hash` algoritmasıyla instance'lar arasında paylaştırır.
+2.  **Paralel İşleme (Outbox & DB):** Her instance kendi içindeki `OutboxRelayService` üzerinden çalışır. Veritabanındaki `SKIP LOCKED` mekanizması sayesinde instance'lar aynı kayıtları işlemeye çalışmaz, yükü paylaşırlar.
+3.  **Kafka Consumer Group:** Kafka, `transfer-requests` topic'indeki partition'ları instance'lar arasında otomatik paylaştırır.
+4.  **WebSocket Broadcast:** Her instance kendi benzersiz Kafka `groupId`'sine sahip olduğu için, işlem sonuçları (success/failed) tüm instance'lara ulaşır ve kullanıcı hangi sunucuya bağlı olursa olsun bildirimini alır.
 
 ---
 
