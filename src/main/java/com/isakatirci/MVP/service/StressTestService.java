@@ -45,6 +45,8 @@ public class StressTestService {
         private double tps;
         private LocalDateTime startTime;
         private String message;
+        @Builder.Default
+        private List<String> errorMessages = new java.util.ArrayList<>();
     }
 
     public StressTestStatus getStatus() {
@@ -136,7 +138,13 @@ public class StressTestService {
                     } catch (Exception e) {
                         int f = failCount.incrementAndGet();
                         currentStatus.setFailed(f);
-                        log.debug("Transfer failed: {}", e.getMessage());
+                        String error = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+                        synchronized (currentStatus.getErrorMessages()) {
+                            if (currentStatus.getErrorMessages().size() < 10 && !currentStatus.getErrorMessages().contains(error)) {
+                                currentStatus.getErrorMessages().add(error);
+                            }
+                        }
+                        log.debug("Transfer failed: {}", error);
                     } finally {
                         doneLatch.countDown();
                         // Report progress every 100 requests or at the end

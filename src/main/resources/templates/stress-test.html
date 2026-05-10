@@ -327,6 +327,16 @@
                 progressPercent.innerText = `${Math.round(percent)}%`;
                 progressCount.innerText = `${completed} / ${total}`;
 
+                if (data.errorMessages && data.errorMessages.length > 0) {
+                    data.errorMessages.forEach(msg => {
+                        if (!window.loggedErrors) window.loggedErrors = new Set();
+                        if (!window.loggedErrors.has(msg)) {
+                            addLog(`ERR: ${msg}`, 'error');
+                            window.loggedErrors.add(msg);
+                        }
+                    });
+                }
+
                 if (data.status === 'COMPLETED' || data.status === 'FAILED') {
                     statusBadge.className = `status-badge status-${data.status.toLowerCase()}`;
                     statusBadge.innerText = data.status;

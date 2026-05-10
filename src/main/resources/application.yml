@@ -19,9 +19,9 @@ spring:
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
     hikari:
-      maximum-pool-size: 50
+      maximum-pool-size: 10
       minimum-idle: 10
-      connection-timeout: 2000
+      connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
       auto-commit: true
