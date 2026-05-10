@@ -131,12 +131,12 @@ public class LedgerService {
         }
     }
 
-    @KafkaListener(topics = "transfer-success", groupId = "websocket-group")
+    @KafkaListener(topics = "transfer-success", groupId = "websocket-group-#{T(java.util.UUID).randomUUID().toString()}")
     public void onTransferSuccess(KafkaTransferMessage msg) {
         messagingTemplate.convertAndSend("/topic/transfers", "SUCCESS:" + msg.getIdempotencyKey());
     }
 
-    @KafkaListener(topics = "transfer-failed", groupId = "websocket-group")
+    @KafkaListener(topics = "transfer-failed", groupId = "websocket-group-#{T(java.util.UUID).randomUUID().toString()}")
     public void onTransferFailed(KafkaTransferMessage msg) {
         messagingTemplate.convertAndSend("/topic/transfers", "FAILED:" + msg.getIdempotencyKey());
     }
