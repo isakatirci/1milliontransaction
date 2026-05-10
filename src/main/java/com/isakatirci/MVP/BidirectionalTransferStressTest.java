@@ -63,8 +63,8 @@ public class BidirectionalTransferStressTest {
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failCount = new AtomicInteger(0);
 
-        // 3. EXECUTION: Virtual Threads
-        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+        // 3. EXECUTION: Platform Threads
+        try (ExecutorService executor = Executors.newFixedThreadPool(200)) {
             for (TestRequest testReq : requests) {
                 executor.submit(() -> {
                     String threadId = Thread.currentThread().toString();

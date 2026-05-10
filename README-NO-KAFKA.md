@@ -4,7 +4,7 @@ This is a production-ready, high-concurrency Ledger Service MVP built with Sprin
 
 ## 🚀 Key Architecture
 
-- **Language & Runtime**: Java 21 (utilizing Virtual Threads for high-concurrency client simulation).
+- **Language & Runtime**: Java 21 (Platform Threads architecture).
 - **Core Framework**: Spring Boot 3.x.
 - **Database**: PostgreSQL with Pessimistic Locking (`FOR UPDATE`) for absolute balance integrity.
 - **Scaling**: Multi-instance setup (default 4 replicas) behind an Nginx Load Balancer.

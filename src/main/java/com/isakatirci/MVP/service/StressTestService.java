@@ -117,25 +117,20 @@ public class StressTestService {
         }
         Collections.shuffle(requests);
 
-        CountDownLatch readyLatch = new CountDownLatch(totalRequests);
-        CountDownLatch startLatch = new CountDownLatch(1);
         CountDownLatch doneLatch = new CountDownLatch(totalRequests);
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failCount = new AtomicInteger(0);
 
-        String baseUrl = "http://ledger-lb/api/v1/transfer"; // Internal network URL
+        String baseUrl = "http://ledger-lb/api/v1/transfer"; 
 
-        currentStatus.setMessage("Launching " + totalRequests + " virtual threads...");
+        currentStatus.setMessage("Executing 10,000 requests via 200 platform threads...");
         if (progressListener != null) progressListener.accept(currentStatus);
 
-        // 3. EXECUTION: Virtual Threads hitting the Load Balancer
-        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+        // 3. EXECUTION
+        try (ExecutorService executor = Executors.newFixedThreadPool(200)) {
             for (TestRequest testReq : requests) {
                 executor.submit(() -> {
                     try {
-                        readyLatch.countDown();
-                        startLatch.await(); 
-
                         String payload = String.format(
                                 "{\"fromAccountId\":\"%s\",\"toAccountId\":\"%s\",\"amount\":%s,\"valueDate\":\"2026-05-10\",\"metadata\":\"stress-test-ui\"}",
                                 testReq.from, testReq.to, testReq.amount
@@ -175,12 +170,7 @@ public class StressTestService {
                 });
             }
 
-            readyLatch.await();
-            currentStatus.setMessage("🚀 Firing all requests!");
-            if (progressListener != null) progressListener.accept(currentStatus);
-            
             long startTime = System.currentTimeMillis();
-            startLatch.countDown();
             doneLatch.await();
             long endTime = System.currentTimeMillis();
 
