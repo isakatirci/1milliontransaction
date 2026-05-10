@@ -8,11 +8,12 @@ import com.isakatirci.MVP.entity.IdempotencyKey;
 import com.isakatirci.MVP.entity.TransactionLedger;
 import com.isakatirci.MVP.exception.IdempotencyConflictException;
 import com.isakatirci.MVP.repository.IdempotencyKeyRepository;
+import com.isakatirci.MVP.repository.OutboxRepository;
 import com.isakatirci.MVP.repository.TransactionLedgerRepository;
+import com.isakatirci.MVP.entity.Outbox;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -34,10 +35,10 @@ public class LedgerService {
 
     private final TransactionLedgerRepository transactionRepository;
     private final IdempotencyKeyRepository idempotencyKeyRepository;
+    private final OutboxRepository outboxRepository;
     private final TransactionTemplate transactionTemplate;
     private final JdbcTemplate jdbcTemplate;
     private final ObjectMapper objectMapper;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
     private final SimpMessagingTemplate messagingTemplate;
 
     public TransferResponse createTransfer(String idempotencyKey, CreateTransferRequest request) throws Exception {
@@ -69,7 +70,7 @@ public class LedgerService {
                     .requestHash(requestHash)
                     .transactionId(transactionId)
                     .status("PENDING")
-                    .responseSnapshot(serializeResponse(response))
+                    .responseSnapshot(serializeObject(response))
                     .createdAt(LocalDateTime.now())
                     .expiresAt(LocalDateTime.now().plusHours(24))
                     .build();
@@ -84,7 +85,15 @@ public class LedgerService {
                     .metadata(request.getMetadata())
                     .build();
 
-            kafkaTemplate.send("transfer-requests", transactionId, msg);
+            // Replace direct Kafka send with Outbox save
+            outboxRepository.save(Outbox.builder()
+                    .eventId(transactionId)
+                    .eventType("TRANSFER_REQUEST")
+                    .payload(serializeObject(msg))
+                    .status(Outbox.OutboxStatus.PENDING)
+                    .retryCount(0)
+                    .createdAt(LocalDateTime.now())
+                    .build());
 
             return response;
         });
@@ -114,7 +123,15 @@ public class LedgerService {
                         ik.setStatus("COMPLETED");
                         idempotencyKeyRepository.save(ik);
                     }
-                    kafkaTemplate.send("transfer-success", msg.getTransactionId(), msg);
+                    // Outbox for success
+                    outboxRepository.save(Outbox.builder()
+                            .eventId(msg.getTransactionId() + "-success")
+                            .eventType("TRANSFER_SUCCESS")
+                            .payload(serializeObject(msg))
+                            .status(Outbox.OutboxStatus.PENDING)
+                            .retryCount(0)
+                            .createdAt(LocalDateTime.now())
+                            .build());
                 } else {
                     txn.setStatus(TransactionLedger.TransactionStatus.FAILED);
                     transactionRepository.save(txn);
@@ -122,7 +139,15 @@ public class LedgerService {
                         ik.setStatus("FAILED");
                         idempotencyKeyRepository.save(ik);
                     }
-                    kafkaTemplate.send("transfer-failed", msg.getTransactionId(), msg);
+                    // Outbox for failure
+                    outboxRepository.save(Outbox.builder()
+                            .eventId(msg.getTransactionId() + "-failed")
+                            .eventType("TRANSFER_FAILED")
+                            .payload(serializeObject(msg))
+                            .status(Outbox.OutboxStatus.PENDING)
+                            .retryCount(0)
+                            .createdAt(LocalDateTime.now())
+                            .build());
                 }
                 return null;
             });
@@ -171,9 +196,9 @@ public class LedgerService {
         }
     }
 
-    private String serializeResponse(TransferResponse response) {
+    private String serializeObject(Object obj) {
         try {
-            return objectMapper.writeValueAsString(response);
+            return objectMapper.writeValueAsString(obj);
         } catch (Exception e) {
             return "{}";
         }

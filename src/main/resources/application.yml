@@ -92,7 +92,7 @@ logging:
 # Settlement relay (disabled by default for MVP)
 outbox:
   relay:
-    enabled: false
+    enabled: true
     poll-interval-ms: 500
 
 settlement:
