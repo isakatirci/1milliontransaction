@@ -75,3 +75,13 @@ ALTER TABLE transaction_ledgers ADD CONSTRAINT fk_to_account FOREIGN KEY (to_acc
 -- ==================== SEQUENCES ====================
 CREATE SEQUENCE IF NOT EXISTS account_seq START 1;
 CREATE SEQUENCE IF NOT EXISTS transaction_seq START 1;
+
+-- ==================== URL SHORTENER ====================
+CREATE TABLE IF NOT EXISTS urls (
+    id BIGSERIAL PRIMARY KEY,
+    short_code VARCHAR(50) NOT NULL UNIQUE,
+    original_url VARCHAR(2048) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_urls_short_code ON urls(short_code);

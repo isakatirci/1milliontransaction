@@ -47,11 +47,17 @@ $env:DB_NAME="ledger_db"; $env:DB_USER="ledger_user"; $env:DB_PASSWORD="ledger_p
 
 1. IDE'nizde `MvpApplication` sınıfını bulun.
 2. Sağ tıklayıp **"Edit Run Configuration"** (Çalıştırma Yapılandırmasını Düzenle) seçeneğine gidin.
-3. **Environment variables** (Çevre değişkenleri) alanına şu değerleri ekleyin:
-   ```env
-   DB_NAME=ledger_db;DB_USER=ledger_user;DB_PASSWORD=ledger_password
-   ```
+3. Parametreleri tanımlamak için şu iki yoldan birini seçin:
+   * **Seçenek 1 (Tavsiye Edilen - VM Options):** `Modify Options` -> `Add VM Options` adımlarını izleyerek **VM options** alanına aşağıdaki parametreleri ekleyin:
+     ```text
+     -DDB_NAME=ledger_db -DDB_USER=ledger_user -DDB_PASSWORD=ledger_password
+     ```
+   * **Seçenek 2 (Environment variables):** **Environment variables** (Çevre değişkenleri) alanına şu değerleri ekleyin:
+     ```env
+     DB_NAME=ledger_db;DB_USER=ledger_user;DB_PASSWORD=ledger_password
+     ```
 4. Uygulamayı **Run** veya **Debug** modunda başlatın.
+
 
 ---
 

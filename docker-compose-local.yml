@@ -83,6 +83,15 @@ services:
       - ledger-network
     restart: unless-stopped
 
+  redis:
+    image: redis:7-alpine
+    container_name: ledger-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ledger-network
+    restart: unless-stopped
+
 volumes:
   postgres_data:
     driver: local
