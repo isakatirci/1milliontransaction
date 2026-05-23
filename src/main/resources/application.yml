@@ -6,6 +6,8 @@ spring:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:}
+      timeout: 500ms
+      connect-timeout: 500ms
   jpa:
     hibernate:
       ddl-auto: validate
@@ -62,6 +64,8 @@ management:
   health:
     db:
       enabled: true
+    redis:
+      enabled: false
     livenessState:
       enabled: true
     readinessState:

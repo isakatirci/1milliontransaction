@@ -48,9 +48,17 @@ public class CacheConfig {
 
     @Bean
     @Primary
-    public CacheManager cacheManager(CaffeineCacheManager caffeineCacheManager, RedisCacheManager redisCacheManager) {
-        log.info("Initializing TwoLevelCacheManager (L1 Caffeine + L2 Redis)...");
-        return new TwoLevelCacheManager(caffeineCacheManager, redisCacheManager);
+    public CacheManager cacheManager(CaffeineCacheManager caffeineCacheManager, RedisCacheManager redisCacheManager, RedisConnectionFactory connectionFactory) {
+        boolean redisAvailable = false;
+        try {
+            log.info("Checking Redis connectivity at startup...");
+            connectionFactory.getConnection().ping();
+            redisAvailable = true;
+            log.info("Redis is available. Caching will run in L1 Caffeine + L2 Redis mode.");
+        } catch (Exception e) {
+            log.warn("Redis is NOT available at startup. Caching will run in L1-only (Caffeine) fallback mode: {}", e.getMessage());
+        }
+        return new TwoLevelCacheManager(caffeineCacheManager, redisCacheManager, redisAvailable);
     }
 
     @Bean

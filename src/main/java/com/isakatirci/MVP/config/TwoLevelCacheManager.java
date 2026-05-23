@@ -11,15 +11,20 @@ import java.util.concurrent.ConcurrentMap;
 public class TwoLevelCacheManager implements CacheManager {
     private final CaffeineCacheManager caffeineCacheManager;
     private final RedisCacheManager redisCacheManager;
+    private final boolean redisEnabled;
     private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<>();
 
-    public TwoLevelCacheManager(CaffeineCacheManager caffeineCacheManager, RedisCacheManager redisCacheManager) {
+    public TwoLevelCacheManager(CaffeineCacheManager caffeineCacheManager, RedisCacheManager redisCacheManager, boolean redisEnabled) {
         this.caffeineCacheManager = caffeineCacheManager;
         this.redisCacheManager = redisCacheManager;
+        this.redisEnabled = redisEnabled;
     }
 
     @Override
     public Cache getCache(String name) {
+        if (!redisEnabled) {
+            return caffeineCacheManager.getCache(name);
+        }
         return caches.computeIfAbsent(name, n -> {
             Cache caffeineCache = caffeineCacheManager.getCache(n);
             Cache redisCache = redisCacheManager.getCache(n);
