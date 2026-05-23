@@ -2,6 +2,7 @@ package com.isakatirci.MVP.service;
 
 import com.isakatirci.MVP.exception.NotFoundException;
 import com.isakatirci.MVP.repository.UrlRepository;
+import com.isakatirci.MVP.util.RequestCoalescer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +17,7 @@ import java.util.List;
 public class UrlService {
 
     private final UrlRepository urlRepository;
+    private final RequestCoalescer requestCoalescer;
 
     public record Country(String name, String shortCode, String redirectUrl) {
     }
@@ -42,9 +44,11 @@ public class UrlService {
     @Cacheable(value = "urls", key = "#shortCode")
     @Transactional(readOnly = true)
     public String resolve(String shortCode) {
-        log.info("Resolving shortCode from database: {}", shortCode);
-        return urlRepository.findByShortCode(shortCode.toUpperCase())
-                .orElseThrow(() -> new NotFoundException("URL not found"))
-                .getOriginalUrl();
+        return requestCoalescer.coalesce(shortCode, () -> {
+            log.info("Resolving shortCode from database: {}", shortCode);
+            return urlRepository.findByShortCode(shortCode.toUpperCase())
+                    .orElseThrow(() -> new NotFoundException("URL not found"))
+                    .getOriginalUrl();
+        });
     }
 }
