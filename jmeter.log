@@ -1,0 +1,744 @@
+2026-05-24 01:14:52,514 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2026-05-24 01:14:52,544 INFO o.a.j.JMeter: Loading user properties from: C:\Users\isa\.tools\apache-jmeter-5.6.3\bin\user.properties
+2026-05-24 01:14:52,546 INFO o.a.j.JMeter: Loading system properties from: C:\Users\isa\.tools\apache-jmeter-5.6.3\bin\system.properties
+2026-05-24 01:14:52,546 INFO o.a.j.JMeter: Setting JMeter property: baseUrl=localhost
+2026-05-24 01:14:52,546 INFO o.a.j.JMeter: Setting JMeter property: port=80
+2026-05-24 01:14:52,546 INFO o.a.j.JMeter: Setting JMeter property: runId=coalesce_run_20260524_011451
+2026-05-24 01:14:52,546 INFO o.a.j.JMeter: Setting JMeter property: duration=60
+2026-05-24 01:14:52,546 INFO o.a.j.JMeter: Setting JMeter property: rampUp=10
+2026-05-24 01:14:52,554 INFO o.a.j.JMeter: Copyright (c) 1998-2024 The Apache Software Foundation
+2026-05-24 01:14:52,554 INFO o.a.j.JMeter: Version 5.6.3
+2026-05-24 01:14:52,554 INFO o.a.j.JMeter: java.version=21.0.10
+2026-05-24 01:14:52,554 INFO o.a.j.JMeter: java.vm.name=OpenJDK 64-Bit Server VM
+2026-05-24 01:14:52,554 INFO o.a.j.JMeter: os.name=Windows 11
+2026-05-24 01:14:52,555 INFO o.a.j.JMeter: os.arch=amd64
+2026-05-24 01:14:52,555 INFO o.a.j.JMeter: os.version=10.0
+2026-05-24 01:14:52,555 INFO o.a.j.JMeter: file.encoding=UTF-8
+2026-05-24 01:14:52,555 INFO o.a.j.JMeter: java.awt.headless=true
+2026-05-24 01:14:52,555 INFO o.a.j.JMeter: Max memory     =1073741824
+2026-05-24 01:14:52,555 INFO o.a.j.JMeter: Available Processors =16
+2026-05-24 01:14:52,567 INFO o.a.j.JMeter: Default Locale=English (EN)
+2026-05-24 01:14:52,567 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2026-05-24 01:14:52,567 INFO o.a.j.JMeter: JMeterHome=C:\Users\isa\.tools\apache-jmeter-5.6.3
+2026-05-24 01:14:52,567 INFO o.a.j.JMeter: user.dir  =C:\Users\isa\MVP
+2026-05-24 01:14:52,567 INFO o.a.j.JMeter: PWD       =C:\Users\isa\MVP
+2026-05-24 01:14:52,568 INFO o.a.j.JMeter: IP: 192.168.1.5 Name: DESKTOP-THRJI6U FullName: DESKTOP-THRJI6U
+2026-05-24 01:14:52,591 INFO o.a.j.JMeter: Setting property 'jmeter.reportgenerator.outputdir' to:'C:\Users\isa\MVP\jmeter\report'
+2026-05-24 01:14:52,592 INFO o.a.j.s.FileServer: Default base='C:\Users\isa\MVP'
+2026-05-24 01:14:52,593 INFO o.a.j.s.FileServer: Set new base='C:\Users\isa\MVP\jmeter'
+2026-05-24 01:14:52,788 INFO o.a.j.s.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2
+2026-05-24 01:14:52,807 INFO o.a.j.s.SaveService: Using SaveService properties version 5.0
+2026-05-24 01:14:52,809 INFO o.a.j.s.SaveService: Using SaveService properties file encoding UTF-8
+2026-05-24 01:14:52,811 INFO o.a.j.s.SaveService: Loading file: jmeter\UrlResolveTestPlan.jmx
+2026-05-24 01:14:52,847 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-05-24 01:14:52,847 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-05-24 01:14:52,847 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-05-24 01:14:52,847 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-05-24 01:14:52,847 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2026-05-24 01:14:52,847 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2026-05-24 01:14:52,860 INFO o.a.j.JMeter: Creating summariser <summary>
+2026-05-24 01:14:52,868 INFO o.a.j.r.d.ReportGenerator: ReportGenerator will use for Parsing the separator: ','
+2026-05-24 01:14:52,868 INFO o.a.j.r.d.ReportGenerator: Will generate report at end of test from  results file: jmeter\results.csv
+2026-05-24 01:14:52,868 INFO o.a.j.r.d.ReportGenerator: Reading report generator properties from: C:\Users\isa\.tools\apache-jmeter-5.6.3\bin\reportgenerator.properties
+2026-05-24 01:14:52,869 INFO o.a.j.r.d.ReportGenerator: Merging with JMeter properties
+2026-05-24 01:14:52,870 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.temp_dir' not found, using default value 'temp' instead.
+2026-05-24 01:14:52,872 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.apdex_per_transaction' not found, using default value 'null' instead.
+2026-05-24 01:14:52,872 INFO o.a.j.r.c.ReportGeneratorConfiguration: apdex_per_transaction is empty, not APDEX per transaction customization
+2026-05-24 01:14:52,872 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.sample_filter' not found, using default value 'null' instead.
+2026-05-24 01:14:52,872 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.report_title' not found, using default value 'null' instead.
+2026-05-24 01:14:52,872 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.start_date' not found, using default value 'null' instead.
+2026-05-24 01:14:52,872 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.end_date' not found, using default value 'null' instead.
+2026-05-24 01:14:52,872 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.date_format' not found, using default value 'null' instead.
+2026-05-24 01:14:52,872 INFO o.a.j.r.c.ReportGeneratorConfiguration: Will use date range start date: null, end date: null
+2026-05-24 01:14:52,875 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.totalTPS.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,875 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.activeThreadsOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,875 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.timeVsThreads.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,875 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimeDistribution.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,875 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.transactionsPerSecond.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,875 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimePercentiles.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,875 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimePercentilesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,875 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,876 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.connectTimeOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,876 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.latenciesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-05-24 01:14:52,877 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.filters_only_sample_series' not found, using default value 'true' instead.
+2026-05-24 01:14:52,877 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.series_filter' not found, using default value '' instead.
+2026-05-24 01:14:52,877 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.show_controllers_only' not found, using default value 'false' instead.
+2026-05-24 01:14:52,877 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.filters_only_sample_series' not found, using default value 'true' instead.
+2026-05-24 01:14:52,877 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.series_filter' not found, using default value '' instead.
+2026-05-24 01:14:52,877 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.show_controllers_only' not found, using default value 'false' instead.
+2026-05-24 01:14:52,885 INFO o.a.j.e.StandardJMeterEngine: Running the test!
+2026-05-24 01:14:52,885 INFO o.a.j.s.SampleEvent: List of sample_variables: []
+2026-05-24 01:14:52,886 INFO o.a.j.s.SampleEvent: List of sample_variables: []
+2026-05-24 01:14:52,888 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must contain the string: '.functions.'
+2026-05-24 01:14:52,888 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must not contain the string: '.gui.'
+2026-05-24 01:14:53,047 INFO o.a.j.JMeter: Running test (1779574493047)
+2026-05-24 01:14:53,056 INFO o.a.j.e.StandardJMeterEngine: Starting ThreadGroup: 1 : Cache Hit Scenario
+2026-05-24 01:14:53,056 INFO o.a.j.e.StandardJMeterEngine: Starting 100 threads for group Cache Hit Scenario.
+2026-05-24 01:14:53,056 INFO o.a.j.e.StandardJMeterEngine: Thread will continue on error
+2026-05-24 01:14:53,056 INFO o.a.j.t.ThreadGroup: Starting thread group... number=1 threads=100 ramp-up=10 delayedStart=false
+2026-05-24 01:14:53,063 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-1
+2026-05-24 01:14:53,090 INFO o.a.j.t.ThreadGroup: Started thread group number 1
+2026-05-24 01:14:53,090 INFO o.a.j.e.StandardJMeterEngine: Starting ThreadGroup: 2 : Cache Miss / DB Lookup
+2026-05-24 01:14:53,090 INFO o.a.j.e.StandardJMeterEngine: Starting 50 threads for group Cache Miss / DB Lookup.
+2026-05-24 01:14:53,090 INFO o.a.j.e.StandardJMeterEngine: Thread will continue on error
+2026-05-24 01:14:53,090 INFO o.a.j.t.ThreadGroup: Starting thread group... number=2 threads=50 ramp-up=10 delayedStart=false
+2026-05-24 01:14:53,090 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-1
+2026-05-24 01:14:53,101 INFO o.a.j.p.h.s.HTTPHCAbstractImpl: Local host = DESKTOP-THRJI6U
+2026-05-24 01:14:53,110 INFO o.a.j.t.ThreadGroup: Started thread group number 2
+2026-05-24 01:14:53,110 INFO o.a.j.e.StandardJMeterEngine: Starting ThreadGroup: 3 : Request Coalescing
+2026-05-24 01:14:53,110 INFO o.a.j.e.StandardJMeterEngine: Starting 50 threads for group Request Coalescing.
+2026-05-24 01:14:53,110 INFO o.a.j.e.StandardJMeterEngine: Thread will continue on error
+2026-05-24 01:14:53,110 INFO o.a.j.t.ThreadGroup: Starting thread group... number=3 threads=50 ramp-up=0 delayedStart=false
+2026-05-24 01:14:53,111 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-1
+2026-05-24 01:14:53,111 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-2
+2026-05-24 01:14:53,111 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-3
+2026-05-24 01:14:53,112 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-4
+2026-05-24 01:14:53,112 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-5
+2026-05-24 01:14:53,112 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-6
+2026-05-24 01:14:53,113 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-7
+2026-05-24 01:14:53,113 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-8
+2026-05-24 01:14:53,114 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-9
+2026-05-24 01:14:53,114 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-10
+2026-05-24 01:14:53,114 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-11
+2026-05-24 01:14:53,115 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-12
+2026-05-24 01:14:53,115 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-13
+2026-05-24 01:14:53,115 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-14
+2026-05-24 01:14:53,116 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-15
+2026-05-24 01:14:53,116 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-16
+2026-05-24 01:14:53,116 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-17
+2026-05-24 01:14:53,117 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-18
+2026-05-24 01:14:53,117 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-19
+2026-05-24 01:14:53,117 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-20
+2026-05-24 01:14:53,118 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-21
+2026-05-24 01:14:53,118 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-22
+2026-05-24 01:14:53,118 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-23
+2026-05-24 01:14:53,119 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-24
+2026-05-24 01:14:53,119 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-25
+2026-05-24 01:14:53,120 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-26
+2026-05-24 01:14:53,120 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-27
+2026-05-24 01:14:53,120 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-28
+2026-05-24 01:14:53,120 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-29
+2026-05-24 01:14:53,120 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-30
+2026-05-24 01:14:53,121 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-31
+2026-05-24 01:14:53,121 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-32
+2026-05-24 01:14:53,121 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-33
+2026-05-24 01:14:53,122 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-34
+2026-05-24 01:14:53,122 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-35
+2026-05-24 01:14:53,122 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-36
+2026-05-24 01:14:53,122 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-37
+2026-05-24 01:14:53,124 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-38
+2026-05-24 01:14:53,124 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-39
+2026-05-24 01:14:53,124 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-40
+2026-05-24 01:14:53,124 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-41
+2026-05-24 01:14:53,124 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-42
+2026-05-24 01:14:53,126 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-43
+2026-05-24 01:14:53,126 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-44
+2026-05-24 01:14:53,126 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-45
+2026-05-24 01:14:53,127 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-46
+2026-05-24 01:14:53,127 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-47
+2026-05-24 01:14:53,128 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-48
+2026-05-24 01:14:53,128 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-49
+2026-05-24 01:14:53,128 INFO o.a.j.t.ThreadGroup: Started thread group number 3
+2026-05-24 01:14:53,128 INFO o.a.j.e.StandardJMeterEngine: All thread groups have been started
+2026-05-24 01:14:53,128 INFO o.a.j.t.JMeterThread: Thread started: Request Coalescing 3-50
+2026-05-24 01:14:53,134 INFO o.a.j.p.h.s.HTTPHC4Impl: HTTP request retry count = 0
+2026-05-24 01:14:53,139 INFO o.a.j.s.SampleResult: Note: Sample TimeStamps are START times
+2026-05-24 01:14:53,139 INFO o.a.j.s.SampleResult: sampleresult.default.encoding is set to UTF-8
+2026-05-24 01:14:53,139 INFO o.a.j.s.SampleResult: sampleresult.useNanoTime=true
+2026-05-24 01:14:53,139 INFO o.a.j.s.SampleResult: sampleresult.nanoThreadSleep=5000
+2026-05-24 01:14:53,163 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-2
+2026-05-24 01:14:53,263 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-3
+2026-05-24 01:14:53,292 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-2
+2026-05-24 01:14:53,363 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-4
+2026-05-24 01:14:53,463 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-5
+2026-05-24 01:14:53,492 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-3
+2026-05-24 01:14:53,563 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-6
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-1
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-14
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-22
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-8
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-43
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-35
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-6
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-18
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-26
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-30
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-45
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-34
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-30
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-47
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-34
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-17
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-23
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-25
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-16
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-25
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-49
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-16
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-49
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-12
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-40
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-41
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-12
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-31
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-5
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-41
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-37
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-31
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-14
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-28
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-11
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-28
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-11
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-37
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-22
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-3
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-3
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-5
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-10
+2026-05-24 01:14:53,607 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-10
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-15
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-42
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-38
+2026-05-24 01:14:53,608 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-42
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-40
+2026-05-24 01:14:53,608 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-38
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-50
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-36
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-27
+2026-05-24 01:14:53,609 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-36
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-35
+2026-05-24 01:14:53,609 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-27
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-21
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-33
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-48
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-23
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-2
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-4
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-29
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-39
+2026-05-24 01:14:53,610 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-29
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-13
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-44
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-17
+2026-05-24 01:14:53,610 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-13
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-9
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-20
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-47
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-19
+2026-05-24 01:14:53,605 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-7
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-32
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-8
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-26
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-18
+2026-05-24 01:14:53,611 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-32
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-6
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-43
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-24
+2026-05-24 01:14:53,604 INFO o.a.j.t.JMeterThread: Thread is done: Request Coalescing 3-46
+2026-05-24 01:14:53,611 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-45
+2026-05-24 01:14:53,611 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-7
+2026-05-24 01:14:53,610 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-9
+2026-05-24 01:14:53,611 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-19
+2026-05-24 01:14:53,610 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-2
+2026-05-24 01:14:53,610 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-39
+2026-05-24 01:14:53,610 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-4
+2026-05-24 01:14:53,609 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-48
+2026-05-24 01:14:53,609 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-33
+2026-05-24 01:14:53,609 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-21
+2026-05-24 01:14:53,608 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-50
+2026-05-24 01:14:53,607 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-15
+2026-05-24 01:14:53,606 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-1
+2026-05-24 01:14:53,613 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-44
+2026-05-24 01:14:53,612 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-20
+2026-05-24 01:14:53,612 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-24
+2026-05-24 01:14:53,612 INFO o.a.j.t.JMeterThread: Thread finished: Request Coalescing 3-46
+2026-05-24 01:14:53,663 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-7
+2026-05-24 01:14:53,691 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-4
+2026-05-24 01:14:53,762 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-8
+2026-05-24 01:14:53,862 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-9
+2026-05-24 01:14:53,892 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-5
+2026-05-24 01:14:53,960 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-10
+2026-05-24 01:14:54,061 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-11
+2026-05-24 01:14:54,092 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-6
+2026-05-24 01:14:54,160 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-12
+2026-05-24 01:14:54,259 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-13
+2026-05-24 01:14:54,292 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-7
+2026-05-24 01:14:54,358 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-14
+2026-05-24 01:14:54,458 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-15
+2026-05-24 01:14:54,492 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-8
+2026-05-24 01:14:54,557 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-16
+2026-05-24 01:14:54,658 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-17
+2026-05-24 01:14:54,690 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-9
+2026-05-24 01:14:54,758 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-18
+2026-05-24 01:14:54,857 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-19
+2026-05-24 01:14:54,890 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-10
+2026-05-24 01:14:54,960 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-20
+2026-05-24 01:14:55,060 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-21
+2026-05-24 01:14:55,091 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-11
+2026-05-24 01:14:55,157 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-22
+2026-05-24 01:14:55,258 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-23
+2026-05-24 01:14:55,291 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-12
+2026-05-24 01:14:55,358 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-24
+2026-05-24 01:14:55,458 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-25
+2026-05-24 01:14:55,491 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-13
+2026-05-24 01:14:55,559 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-26
+2026-05-24 01:14:55,658 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-27
+2026-05-24 01:14:55,690 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-14
+2026-05-24 01:14:55,757 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-28
+2026-05-24 01:14:55,860 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-29
+2026-05-24 01:14:55,890 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-15
+2026-05-24 01:14:55,958 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-30
+2026-05-24 01:14:56,057 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-31
+2026-05-24 01:14:56,091 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-16
+2026-05-24 01:14:56,158 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-32
+2026-05-24 01:14:56,259 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-33
+2026-05-24 01:14:56,290 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-17
+2026-05-24 01:14:56,358 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-34
+2026-05-24 01:14:56,458 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-35
+2026-05-24 01:14:56,491 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-18
+2026-05-24 01:14:56,558 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-36
+2026-05-24 01:14:56,658 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-37
+2026-05-24 01:14:56,692 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-19
+2026-05-24 01:14:56,759 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-38
+2026-05-24 01:14:56,857 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-39
+2026-05-24 01:14:56,892 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-20
+2026-05-24 01:14:56,959 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-40
+2026-05-24 01:14:57,058 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-41
+2026-05-24 01:14:57,091 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-21
+2026-05-24 01:14:57,158 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-42
+2026-05-24 01:14:57,257 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-43
+2026-05-24 01:14:57,295 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-22
+2026-05-24 01:14:57,357 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-44
+2026-05-24 01:14:57,459 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-45
+2026-05-24 01:14:57,491 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-23
+2026-05-24 01:14:57,557 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-46
+2026-05-24 01:14:57,658 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-47
+2026-05-24 01:14:57,691 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-24
+2026-05-24 01:14:57,759 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-48
+2026-05-24 01:14:57,859 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-49
+2026-05-24 01:14:57,890 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-25
+2026-05-24 01:14:57,958 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-50
+2026-05-24 01:14:58,057 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-51
+2026-05-24 01:14:58,092 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-26
+2026-05-24 01:14:58,157 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-52
+2026-05-24 01:14:58,259 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-53
+2026-05-24 01:14:58,292 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-27
+2026-05-24 01:14:58,358 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-54
+2026-05-24 01:14:58,457 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-55
+2026-05-24 01:14:58,491 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-28
+2026-05-24 01:14:58,557 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-56
+2026-05-24 01:14:58,658 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-57
+2026-05-24 01:14:58,692 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-29
+2026-05-24 01:14:58,757 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-58
+2026-05-24 01:14:58,858 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-59
+2026-05-24 01:14:58,891 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-30
+2026-05-24 01:14:58,958 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-60
+2026-05-24 01:14:59,058 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-61
+2026-05-24 01:14:59,092 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-31
+2026-05-24 01:14:59,160 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-62
+2026-05-24 01:14:59,258 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-63
+2026-05-24 01:14:59,291 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-32
+2026-05-24 01:14:59,358 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-64
+2026-05-24 01:14:59,459 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-65
+2026-05-24 01:14:59,492 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-33
+2026-05-24 01:14:59,559 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-66
+2026-05-24 01:14:59,657 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-67
+2026-05-24 01:14:59,691 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-34
+2026-05-24 01:14:59,757 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-68
+2026-05-24 01:14:59,858 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-69
+2026-05-24 01:14:59,891 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-35
+2026-05-24 01:14:59,960 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-70
+2026-05-24 01:15:00,005 INFO o.a.j.r.Summariser: summary +  18236 in 00:00:07 = 2622.4/s Avg:    20 Min:     3 Max:   315 Err:     0 (0.00%) Active: 105 Started: 155 Finished: 50
+2026-05-24 01:15:00,058 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-71
+2026-05-24 01:15:00,099 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-36
+2026-05-24 01:15:00,159 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-72
+2026-05-24 01:15:00,258 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-73
+2026-05-24 01:15:00,290 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-37
+2026-05-24 01:15:00,359 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-74
+2026-05-24 01:15:00,459 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-75
+2026-05-24 01:15:00,491 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-38
+2026-05-24 01:15:00,558 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-76
+2026-05-24 01:15:00,659 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-77
+2026-05-24 01:15:00,692 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-39
+2026-05-24 01:15:00,758 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-78
+2026-05-24 01:15:00,858 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-79
+2026-05-24 01:15:00,891 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-40
+2026-05-24 01:15:00,958 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-80
+2026-05-24 01:15:01,059 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-81
+2026-05-24 01:15:01,092 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-41
+2026-05-24 01:15:01,158 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-82
+2026-05-24 01:15:01,257 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-83
+2026-05-24 01:15:01,290 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-42
+2026-05-24 01:15:01,359 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-84
+2026-05-24 01:15:01,457 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-85
+2026-05-24 01:15:01,490 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-43
+2026-05-24 01:15:01,558 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-86
+2026-05-24 01:15:01,658 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-87
+2026-05-24 01:15:01,691 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-44
+2026-05-24 01:15:01,757 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-88
+2026-05-24 01:15:01,857 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-89
+2026-05-24 01:15:01,890 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-45
+2026-05-24 01:15:01,959 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-90
+2026-05-24 01:15:02,058 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-91
+2026-05-24 01:15:02,090 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-46
+2026-05-24 01:15:02,158 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-92
+2026-05-24 01:15:02,257 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-93
+2026-05-24 01:15:02,290 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-47
+2026-05-24 01:15:02,357 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-94
+2026-05-24 01:15:02,457 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-95
+2026-05-24 01:15:02,493 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-48
+2026-05-24 01:15:02,558 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-96
+2026-05-24 01:15:02,657 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-97
+2026-05-24 01:15:02,692 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-49
+2026-05-24 01:15:02,758 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-98
+2026-05-24 01:15:02,859 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-99
+2026-05-24 01:15:02,890 INFO o.a.j.t.JMeterThread: Thread started: Cache Miss / DB Lookup 2-50
+2026-05-24 01:15:02,958 INFO o.a.j.t.JMeterThread: Thread started: Cache Hit Scenario 1-100
+2026-05-24 01:15:30,013 INFO o.a.j.r.Summariser: summary +  47495 in 00:00:30 = 1582.5/s Avg:    93 Min:     3 Max:   377 Err:     0 (0.00%) Active: 150 Started: 200 Finished: 50
+2026-05-24 01:15:30,014 INFO o.a.j.r.Summariser: summary =  65731 in 00:00:37 = 1778.1/s Avg:    72 Min:     3 Max:   377 Err:     0 (0.00%)
+2026-05-24 01:15:53,064 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-8
+2026-05-24 01:15:53,064 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-8
+2026-05-24 01:15:53,064 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-7
+2026-05-24 01:15:53,064 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-7
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-10
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-10
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-21
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-21
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-17
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-17
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-5
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-5
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-36
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-43
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-53
+2026-05-24 01:15:53,078 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-36
+2026-05-24 01:15:53,079 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-43
+2026-05-24 01:15:53,079 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-53
+2026-05-24 01:15:53,079 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-47
+2026-05-24 01:15:53,079 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-48
+2026-05-24 01:15:53,079 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-47
+2026-05-24 01:15:53,079 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-48
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-81
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-34
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-32
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-78
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-81
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-88
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-77
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-78
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-32
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-70
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-86
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-82
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-88
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-77
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-73
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-34
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-73
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-24
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-86
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-24
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-70
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-82
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-52
+2026-05-24 01:15:53,095 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-52
+2026-05-24 01:15:53,097 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-18
+2026-05-24 01:15:53,097 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-15
+2026-05-24 01:15:53,097 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-18
+2026-05-24 01:15:53,097 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-15
+2026-05-24 01:15:53,097 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-3
+2026-05-24 01:15:53,097 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-3
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-22
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-79
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-65
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-85
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-79
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-65
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-85
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-35
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-89
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-22
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-35
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-14
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-89
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-14
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-63
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-49
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-63
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-28
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-49
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-28
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-38
+2026-05-24 01:15:53,110 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-38
+2026-05-24 01:15:53,111 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-49
+2026-05-24 01:15:53,111 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-49
+2026-05-24 01:15:53,111 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-32
+2026-05-24 01:15:53,111 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-32
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-26
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-59
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-26
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-95
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-40
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-18
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-40
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-25
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-84
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-18
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-39
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-95
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-2
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-3
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-59
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-2
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-3
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-39
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-60
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-16
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-60
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-84
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-25
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-51
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-16
+2026-05-24 01:15:53,127 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-51
+2026-05-24 01:15:53,129 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-39
+2026-05-24 01:15:53,129 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-39
+2026-05-24 01:15:53,129 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-41
+2026-05-24 01:15:53,129 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-41
+2026-05-24 01:15:53,140 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-15
+2026-05-24 01:15:53,140 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-23
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-15
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-23
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-13
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-41
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-13
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-41
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-46
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-93
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-69
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-76
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-46
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-30
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-76
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-93
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-30
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-69
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-31
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-6
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-58
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-31
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-58
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-29
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-6
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-98
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-29
+2026-05-24 01:15:53,141 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-98
+2026-05-24 01:15:53,142 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-44
+2026-05-24 01:15:53,142 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-44
+2026-05-24 01:15:53,143 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-12
+2026-05-24 01:15:53,143 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-12
+2026-05-24 01:15:53,144 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-20
+2026-05-24 01:15:53,144 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-20
+2026-05-24 01:15:53,144 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-4
+2026-05-24 01:15:53,144 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-4
+2026-05-24 01:15:53,158 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-94
+2026-05-24 01:15:53,158 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-94
+2026-05-24 01:15:53,158 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-9
+2026-05-24 01:15:53,158 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-12
+2026-05-24 01:15:53,158 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-9
+2026-05-24 01:15:53,158 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-12
+2026-05-24 01:15:53,158 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-37
+2026-05-24 01:15:53,158 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-54
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-37
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-33
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-54
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-33
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-20
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-20
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-1
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-55
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-1
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-55
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-4
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-4
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-72
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-72
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-71
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-11
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-71
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-11
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-56
+2026-05-24 01:15:53,159 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-56
+2026-05-24 01:15:53,160 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-100
+2026-05-24 01:15:53,160 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-100
+2026-05-24 01:15:53,160 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-75
+2026-05-24 01:15:53,160 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-75
+2026-05-24 01:15:53,160 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-50
+2026-05-24 01:15:53,160 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-50
+2026-05-24 01:15:53,161 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-48
+2026-05-24 01:15:53,161 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-48
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-19
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-45
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-90
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-19
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-90
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-99
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-42
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-99
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-45
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-87
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-64
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-64
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-97
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-61
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-74
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-62
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-62
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-42
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-57
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-74
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-87
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-27
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-61
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-97
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-27
+2026-05-24 01:15:53,174 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-57
+2026-05-24 01:15:53,176 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-5
+2026-05-24 01:15:53,176 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-5
+2026-05-24 01:15:53,176 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-17
+2026-05-24 01:15:53,176 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-17
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-66
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-91
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-83
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-66
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-83
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-92
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-91
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-96
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-92
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-80
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-68
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-68
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-96
+2026-05-24 01:15:53,191 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-80
+2026-05-24 01:15:53,193 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-6
+2026-05-24 01:15:53,193 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-6
+2026-05-24 01:15:53,193 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-27
+2026-05-24 01:15:53,193 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-13
+2026-05-24 01:15:53,193 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-25
+2026-05-24 01:15:53,193 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-27
+2026-05-24 01:15:53,193 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-13
+2026-05-24 01:15:53,193 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-25
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-21
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-2
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-33
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-16
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-33
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-21
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-43
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-36
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-43
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-45
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-16
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-7
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-37
+2026-05-24 01:15:53,207 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-2
+2026-05-24 01:15:53,208 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-26
+2026-05-24 01:15:53,208 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-26
+2026-05-24 01:15:53,208 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-37
+2026-05-24 01:15:53,208 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-7
+2026-05-24 01:15:53,208 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-45
+2026-05-24 01:15:53,208 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-36
+2026-05-24 01:15:53,209 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-19
+2026-05-24 01:15:53,209 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-19
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-24
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-22
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-44
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-40
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-44
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-24
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-40
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-22
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-14
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-10
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-29
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-14
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-31
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-10
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-29
+2026-05-24 01:15:53,224 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-31
+2026-05-24 01:15:53,238 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-8
+2026-05-24 01:15:53,238 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-35
+2026-05-24 01:15:53,238 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-8
+2026-05-24 01:15:53,238 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-1
+2026-05-24 01:15:53,238 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-23
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-23
+2026-05-24 01:15:53,238 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-35
+2026-05-24 01:15:53,238 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-1
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-30
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-38
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-47
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-30
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-47
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-38
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-11
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-11
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-28
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-9
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-28
+2026-05-24 01:15:53,239 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-9
+2026-05-24 01:15:53,240 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-46
+2026-05-24 01:15:53,240 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-34
+2026-05-24 01:15:53,240 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-46
+2026-05-24 01:15:53,240 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-34
+2026-05-24 01:15:53,241 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-42
+2026-05-24 01:15:53,241 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-42
+2026-05-24 01:16:06,424 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Hit Scenario 1-67
+2026-05-24 01:16:06,424 INFO o.a.j.t.JMeterThread: Thread finished: Cache Hit Scenario 1-67
+2026-05-24 01:16:07,565 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Cache Miss / DB Lookup 2-50
+2026-05-24 01:16:07,565 INFO o.a.j.t.JMeterThread: Thread finished: Cache Miss / DB Lookup 2-50
+2026-05-24 01:16:07,566 INFO o.a.j.e.StandardJMeterEngine: Notifying test listeners of end of test
+2026-05-24 01:16:07,567 INFO o.a.j.r.Summariser: summary +  24507 in 00:00:38 =  652.6/s Avg:   143 Min:     4 Max: 31325 Err:     2 (0.01%) Active: 0 Started: 200 Finished: 200
+2026-05-24 01:16:07,567 INFO o.a.j.r.Summariser: summary =  90238 in 00:01:15 = 1210.9/s Avg:    92 Min:     3 Max: 31325 Err:     2 (0.00%)
+2026-05-24 01:16:07,567 INFO o.a.j.JMeter: Generating Dashboard
+2026-05-24 01:16:07,567 INFO o.a.j.r.d.ReportGenerator: Flushing result collector before report Generation
+2026-05-24 01:16:07,575 INFO o.a.j.r.p.NormalizerSampleConsumer: Using format, 'ms', to parse timeStamp field
+2026-05-24 01:16:08,497 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.AggregateConsumer#stopProducing(): beginDate produced 0 samples
+2026-05-24 01:16:08,497 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.AggregateConsumer#stopProducing(): endDate produced 0 samples
+2026-05-24 01:16:08,498 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.ApdexSummaryConsumer#stopProducing(): apdexSummary produced 0 samples
+2026-05-24 01:16:08,498 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.RequestsSummaryConsumer#stopProducing(): requestsSummary produced 0 samples
+2026-05-24 01:16:08,505 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.StatisticsSummaryConsumer#stopProducing(): statisticsSummary produced 0 samples
+2026-05-24 01:16:08,506 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.Top5ErrorsBySamplerConsumer#stopProducing(): top5ErrorsBySampler produced 0 samples
+2026-05-24 01:16:08,506 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.ErrorsSummaryConsumer#stopProducing(): errorsSummary produced 0 samples
+2026-05-24 01:16:08,506 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.HitsPerSecondGraphConsumer#stopProducing(): hitsPerSecond produced 0 samples
+2026-05-24 01:16:08,720 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.LatencyVSRequestGraphConsumer#stopProducing(): latencyVsRequest produced 0 samples
+2026-05-24 01:16:08,723 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.SyntheticResponseTimeDistributionGraphConsumer#stopProducing(): syntheticResponseTimeDistribution produced 0 samples
+2026-05-24 01:16:08,723 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.BytesThroughputGraphConsumer#stopProducing(): bytesThroughputOverTime produced 0 samples
+2026-05-24 01:16:08,723 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.CodesPerSecondGraphConsumer#stopProducing(): codesPerSecond produced 0 samples
+2026-05-24 01:16:08,880 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeVSRequestGraphConsumer#stopProducing(): responseTimeVsRequest produced 0 samples
+2026-05-24 01:16:08,880 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): startIntervalControlerFilter produced 631666 samples
+2026-05-24 01:16:08,880 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TotalTPSGraphConsumer#stopProducing(): totalTPS produced 0 samples
+2026-05-24 01:16:08,880 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ActiveThreadsGraphConsumer#stopProducing(): activeThreadsOverTime produced 0 samples
+2026-05-24 01:16:08,880 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TimeVSThreadGraphConsumer#stopProducing(): timeVsThreads produced 0 samples
+2026-05-24 01:16:08,881 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeDistributionGraphConsumer#stopProducing(): responseTimeDistribution produced 0 samples
+2026-05-24 01:16:08,881 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TransactionsPerSecondGraphConsumer#stopProducing(): transactionsPerSecond produced 0 samples
+2026-05-24 01:16:08,881 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimePercentilesGraphConsumer#stopProducing(): responseTimePercentiles produced 0 samples
+2026-05-24 01:16:08,882 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimePercentilesOverTimeGraphConsumer#stopProducing(): responseTimePercentilesOverTime produced 0 samples
+2026-05-24 01:16:08,883 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeOverTimeGraphConsumer#stopProducing(): responseTimesOverTime produced 0 samples
+2026-05-24 01:16:08,883 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ConnectTimeOverTimeGraphConsumer#stopProducing(): connectTimeOverTime produced 0 samples
+2026-05-24 01:16:08,883 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.LatencyOverTimeGraphConsumer#stopProducing(): latenciesOverTime produced 0 samples
+2026-05-24 01:16:08,883 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): nameFilter produced 1353570 samples
+2026-05-24 01:16:08,883 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): dateRangeFilter produced 270714 samples
+2026-05-24 01:16:08,883 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.NormalizerSampleConsumer#stopProducing(): normalizer produced 90238 samples
+2026-05-24 01:16:08,884 INFO o.a.j.r.p.CsvFileSampleSource: produce(): 90238 samples produced in 1s 296 ms on channel 0
+2026-05-24 01:16:08,884 INFO o.a.j.r.d.ReportGenerator: Exporting data using exporter:'json' of className:'org.apache.jmeter.report.dashboard.JsonExporter'
+2026-05-24 01:16:08,925 INFO o.a.j.r.d.JsonExporter: Found data for consumer statisticsSummary in context
+2026-05-24 01:16:08,926 INFO o.a.j.r.d.JsonExporter: Creating statistics for overall
+2026-05-24 01:16:08,926 INFO o.a.j.r.d.JsonExporter: Creating statistics for other transactions
+2026-05-24 01:16:08,926 INFO o.a.j.r.d.JsonExporter: Checking output folder
+2026-05-24 01:16:08,926 INFO o.a.j.r.d.JsonExporter: Writing statistics JSON to C:\Users\isa\MVP\jmeter\report\statistics.json
+2026-05-24 01:16:08,952 INFO o.a.j.r.d.ReportGenerator: Exporting data using exporter:'html' of className:'org.apache.jmeter.report.dashboard.HtmlTemplateExporter'
+2026-05-24 01:16:08,953 INFO o.a.j.r.d.HtmlTemplateExporter: Will generate dashboard in folder: C:\Users\isa\MVP\jmeter\report
+2026-05-24 01:16:09,099 INFO o.a.j.r.d.HtmlTemplateExporter: Report will be generated in: C:\Users\isa\MVP\jmeter\report, creating folder structure
+2026-05-24 01:16:09,100 INFO o.a.j.r.d.TemplateVisitor: Copying folder from 'C:\Users\isa\.tools\apache-jmeter-5.6.3\bin\report-template' to 'C:\Users\isa\MVP\jmeter\report', got message: C:\Users\isa\MVP\jmeter\report, found non empty folder with following content [C:\Users\isa\MVP\jmeter\report\statistics.json], will be ignored
+2026-05-24 01:16:09,290 INFO o.a.j.JMeter: Dashboard generated
