@@ -35,7 +35,7 @@ To improve database read performance and scale database operations, database tra
 We use PostgreSQL physical streaming replication inside Docker.
 
 ### Primary Database Configuration (`postgres`)
-- Startup script `init-replication.sql` automatically runs inside `docker-entrypoint-initdb.d/` to create a `replicator` user with `REPLICATION` privileges.
+- Startup script `init-replication.sh` automatically runs inside `docker-entrypoint-initdb.d/` to create a `replicator` user with `REPLICATION` privileges and configure replication access in `pg_hba.conf`.
 - Replicas connect to the primary using this account.
 
 ### Replica Database Configuration (`postgres-replica`)
@@ -78,6 +78,10 @@ public ResponseEntity<Map<String, Object>> getBalance(@PathVariable String accou
 
 ### Important Rule:
 If a read operation is executed within a read-write transaction (i.e. called from a method with standard `@Transactional`), it will continue using the **Writer** datasource connection to ensure read-after-write consistency.
+
+### Seeding & Database Initializers:
+Always run database startup checks or migrations/seeding (e.g. `CommandLineRunner` seeders) inside a read-write transaction (`TransactionTemplate` or standard `@Transactional`). 
+Because standard JPA repository helper methods (like `count()`) default to `@Transactional(readOnly = true)`, running them outside of a transaction context will route connections to the `READER` (the replica). At system startup, the replica database container may still be copying pg_basebackup or performing startup recovery, returning `PSQLException: FATAL: the database system is starting up`. Wrapping the initialization logic in a read-write transaction forces it to run safely on the `WRITER` (primary database).
 
 ---
 

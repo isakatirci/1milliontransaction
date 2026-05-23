@@ -62,30 +62,33 @@ public class CacheConfig {
     }
 
     @Bean
-    public CommandLineRunner initDatabase(UrlRepository urlRepository) {
+    public CommandLineRunner initDatabase(UrlRepository urlRepository, org.springframework.transaction.support.TransactionTemplate transactionTemplate) {
         return args -> {
-            if (urlRepository.count() == 0) {
-                log.info("Url database table is empty. Pre-populating redirect records...");
-                urlRepository.saveAll(List.of(
-                        Url.builder().shortCode("TR").originalUrl("https://en.wikipedia.org/wiki/Turkey").build(),
-                        Url.builder().shortCode("US").originalUrl("https://en.wikipedia.org/wiki/United_States").build(),
-                        Url.builder().shortCode("DE").originalUrl("https://en.wikipedia.org/wiki/Germany").build(),
-                        Url.builder().shortCode("GB").originalUrl("https://en.wikipedia.org/wiki/United_Kingdom").build(),
-                        Url.builder().shortCode("FR").originalUrl("https://en.wikipedia.org/wiki/France").build(),
-                        Url.builder().shortCode("JP").originalUrl("https://en.wikipedia.org/wiki/Japan").build(),
-                        Url.builder().shortCode("CA").originalUrl("https://en.wikipedia.org/wiki/Canada").build(),
-                        Url.builder().shortCode("AU").originalUrl("https://en.wikipedia.org/wiki/Australia").build(),
-                        Url.builder().shortCode("IT").originalUrl("https://en.wikipedia.org/wiki/Italy").build(),
-                        Url.builder().shortCode("ES").originalUrl("https://en.wikipedia.org/wiki/Spain").build(),
-                        Url.builder().shortCode("NL").originalUrl("https://en.wikipedia.org/wiki/Netherlands").build(),
-                        Url.builder().shortCode("CH").originalUrl("https://en.wikipedia.org/wiki/Switzerland").build(),
-                        Url.builder().shortCode("SE").originalUrl("https://en.wikipedia.org/wiki/Sweden").build(),
-                        Url.builder().shortCode("NO").originalUrl("https://en.wikipedia.org/wiki/Norway").build(),
-                        Url.builder().shortCode("DK").originalUrl("https://en.wikipedia.org/wiki/Denmark").build(),
-                        Url.builder().shortCode("FI").originalUrl("https://en.wikipedia.org/wiki/Finland").build()
-                ));
-                log.info("Redirect records pre-populated successfully.");
-            }
+            transactionTemplate.execute(status -> {
+                if (urlRepository.count() == 0) {
+                    log.info("Url database table is empty. Pre-populating redirect records...");
+                    urlRepository.saveAll(List.of(
+                            Url.builder().shortCode("TR").originalUrl("https://en.wikipedia.org/wiki/Turkey").build(),
+                            Url.builder().shortCode("US").originalUrl("https://en.wikipedia.org/wiki/United_States").build(),
+                            Url.builder().shortCode("DE").originalUrl("https://en.wikipedia.org/wiki/Germany").build(),
+                            Url.builder().shortCode("GB").originalUrl("https://en.wikipedia.org/wiki/United_Kingdom").build(),
+                            Url.builder().shortCode("FR").originalUrl("https://en.wikipedia.org/wiki/France").build(),
+                            Url.builder().shortCode("JP").originalUrl("https://en.wikipedia.org/wiki/Japan").build(),
+                            Url.builder().shortCode("CA").originalUrl("https://en.wikipedia.org/wiki/Canada").build(),
+                            Url.builder().shortCode("AU").originalUrl("https://en.wikipedia.org/wiki/Australia").build(),
+                            Url.builder().shortCode("IT").originalUrl("https://en.wikipedia.org/wiki/Italy").build(),
+                            Url.builder().shortCode("ES").originalUrl("https://en.wikipedia.org/wiki/Spain").build(),
+                            Url.builder().shortCode("NL").originalUrl("https://en.wikipedia.org/wiki/Netherlands").build(),
+                            Url.builder().shortCode("CH").originalUrl("https://en.wikipedia.org/wiki/Switzerland").build(),
+                            Url.builder().shortCode("SE").originalUrl("https://en.wikipedia.org/wiki/Sweden").build(),
+                            Url.builder().shortCode("NO").originalUrl("https://en.wikipedia.org/wiki/Norway").build(),
+                            Url.builder().shortCode("DK").originalUrl("https://en.wikipedia.org/wiki/Denmark").build(),
+                            Url.builder().shortCode("FI").originalUrl("https://en.wikipedia.org/wiki/Finland").build()
+                    ));
+                    log.info("Redirect records pre-populated successfully.");
+                }
+                return null;
+            });
         };
     }
 }
