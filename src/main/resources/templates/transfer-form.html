@@ -355,17 +355,18 @@
             formCard.classList.add('loading');
 
             const formData = {
-                fromAccount: document.getElementById('fromAccount').value,
-                toAccount: document.getElementById('toAccount').value,
-                amount: parseFloat(document.getElementById('amount').value)
+                fromAccountId: document.getElementById('fromAccount').value,
+                toAccountId: document.getElementById('toAccount').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                valueDate: new Date().toISOString().split('T')[0]
             };
 
             const idempotencyKey = crypto.randomUUID();
 
             try {
                 // Ensure accounts exist with sufficient balance
-                await ensureAccountExists(formData.fromAccount, 1000000); 
-                await ensureAccountExists(formData.toAccount, 0);
+                await ensureAccountExists(formData.fromAccountId, 1000000); 
+                await ensureAccountExists(formData.toAccountId, 0);
 
                 const response = await fetch('/api/v1/transfer', {
                     method: 'POST',
@@ -378,7 +379,7 @@
 
                 if (response.ok || response.status === 201) {
                     const data = await response.json();
-                    showModal(true, "Transfer Successful", `Successfully transferred $${formData.amount} from ${formData.fromAccount} to ${formData.toAccount}.`);
+                    showModal(true, "Transfer Successful", `Successfully transferred $${formData.amount} from ${formData.fromAccountId} to ${formData.toAccountId}.`);
                     form.reset();
                 } else {
                     const errorData = await response.json().catch(() => ({}));

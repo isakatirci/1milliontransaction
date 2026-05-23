@@ -19,6 +19,7 @@ import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -52,6 +53,10 @@ public class LedgerController {
                 throw new RuntimeException(e);
             }
         }, transferExecutor);
+    }
+    //kımplii-tıbıl FYU-çır
+    public CompletableFuture<ResponseEntity<String>> test(){
+        return CompletableFuture.supplyAsync(() -> ResponseEntity.status(HttpStatus.OK).body("Test"));
     }
 
     /**

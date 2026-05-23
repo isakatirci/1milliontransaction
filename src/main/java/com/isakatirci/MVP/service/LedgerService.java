@@ -15,6 +15,7 @@ import com.isakatirci.MVP.repository.AccountRepository;
 import com.isakatirci.MVP.repository.IdempotencyKeyRepository;
 import com.isakatirci.MVP.repository.OutboxRepository;
 import com.isakatirci.MVP.repository.TransactionLedgerRepository;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,7 @@ public class LedgerService {
      * @param request        transfer request details
      * @return transfer response
      */
+    @Timed(value = "ledger.transfer.create", description = "Time taken to create transfer", percentiles = {0.5, 0.9, 0.95, 0.99})
     public TransferResponse createTransfer(String idempotencyKey, CreateTransferRequest request) throws Exception {
         // Validate self-transfer
         if (request.getFromAccountId().equals(request.getToAccountId())) {
@@ -126,6 +128,7 @@ public class LedgerService {
         });
     }
 
+    @Timed(value = "ledger.transfer.perform", description = "Time taken to perform transfer", percentiles = {0.5, 0.9, 0.95, 0.99})
     private TransferResponse performTransfer(String idempotencyKey, CreateTransferRequest request) {
         String fromId = request.getFromAccountId();
         String toId = request.getToAccountId();
