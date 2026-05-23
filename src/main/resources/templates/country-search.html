@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP Ledger | Country Redirect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --success: #22c55e;
+            --fail: #ef4444;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --input-bg: #0f172a;
+            --hover-bg: #334155;
+            --highlight-bg: #2b3a4a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.05em;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Combobox container wrapper */
+        .combobox-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.875rem 2.5rem 0.875rem 1rem;
+            border-radius: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        /* Clear button */
+        .clear-btn {
+            position: absolute;
+            right: 0.875rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .clear-btn:hover {
+            color: var(--text);
+        }
+
+        /* Dropdown list container */
+        .dropdown-list {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            display: none;
+            transform-origin: top;
+            animation: slideDown 0.2s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .dropdown-list.show {
+            display: block;
+        }
+
+        /* Custom scrollbar for dropdown */
+        .dropdown-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .dropdown-list::-webkit-scrollbar-track {
+            background: var(--input-bg);
+            border-bottom-right-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .dropdown-list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        .dropdown-list::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Dropdown option items */
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: background 0.15s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .dropdown-item.highlighted {
+            background: var(--highlight-bg);
+            border-left: 3px solid var(--accent);
+            padding-left: calc(1rem - 3px);
+        }
+
+        .flag-emoji {
+            font-size: 1.25rem;
+        }
+
+        .country-name {
+            font-weight: 500;
+            flex-grow: 1;
+        }
+
+        .country-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            background: var(--input-bg);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        .no-results {
+            padding: 1rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .btn {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            color: var(--bg);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px var(--accent-glow);
+        }
+
+        .btn:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .footer-nav {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .footer-nav a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .footer-nav a:hover {
+            text-decoration: underline;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>COUNTRY SEARCH</h1>
+            <p class="subtitle">Quickly look up and redirect to country resources</p>
+        </header>
+
+        <div class="card">
+            <form id="searchForm" autocomplete="off" onsubmit="event.preventDefault(); handleRedirect();">
+                <div class="form-group">
+                    <label for="countrySearch">Search Country</label>
+                    <div class="combobox-container">
+                        <div class="input-wrapper">
+                            <input 
+                                type="text" 
+                                id="countrySearch" 
+                                placeholder="Type to search e.g. Turkey" 
+                                autocomplete="off"
+                                spellcheck="false"
+                            >
+                            <button type="button" class="clear-btn" id="clearBtn">&times;</button>
+                        </div>
+                        
+                        <div class="dropdown-list" id="dropdownList">
+                            <!-- JS populated list -->
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn" disabled>
+                    <span>Search & Redirect</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <div class="footer-nav">
+            <a href="/transfer-form">← Back to Transfer Form</a>
+        </div>
+    </div>
+
+    <!-- Thymeleaf inline script to serialize the Java collection into a JS array -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const backendCountries = /*[[${countries}]]*/ [];
+        /*]]>*/
+
+        // Map shortCodes to country flag emojis
+        const flagMap = {
+            'TR': '🇹🇷',
+            'US': '🇺🇸',
+            'DE': '🇩🇪',
+            'GB': '🇬🇧',
+            'FR': '🇫🇷',
+            'JP': '🇯🇵',
+            'CA': '🇨🇦',
+            'AU': '🇦🇺',
+            'IT': '🇮🇹',
+            'ES': '🇪🇸',
+            'NL': '🇳🇱',
+            'CH': '🇨🇭',
+            'SE': '🇸🇪',
+            'NO': '🇳🇴',
+            'DK': '🇩🇰',
+            'FI': '🇫🇮'
+        };
+
+        // Complete the countries array by adding flag visual helper
+        const countries = backendCountries.map(c => ({
+            ...c,
+            flag: flagMap[c.shortCode.toUpperCase()] || '🌐'
+        }));
+
+        const input = document.getElementById('countrySearch');
+        const clearBtn = document.getElementById('clearBtn');
+        const dropdownList = document.getElementById('dropdownList');
+        const submitBtn = document.getElementById('submitBtn');
+
+        let selectedCountry = null;
+        let highlightedIndex = -1;
+        let activeItems = [];
+
+        // Filter and display countries
+        function populateDropdown(filterText = '') {
+            dropdownList.innerHTML = '';
+            const normalizedFilter = filterText.toLowerCase().trim();
+
+            activeItems = countries.filter(c => 
+                c.name.toLowerCase().includes(normalizedFilter) || 
+                c.shortCode.toLowerCase().includes(normalizedFilter)
+            );
+
+            if (activeItems.length === 0) {
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.textContent = 'No countries found';
+                dropdownList.appendChild(noResults);
+                highlightedIndex = -1;
+                return;
+            }
+
+            activeItems.forEach((country, index) => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                if (index === highlightedIndex) {
+                    item.classList.add('highlighted');
+                }
+                
+                item.innerHTML = `
+                    <span class="flag-emoji">${country.flag}</span>
+                    <span class="country-name">${country.name}</span>
+                    <span class="country-code">${country.shortCode}</span>
+                `;
+
+                item.addEventListener('click', () => {
+                    selectCountry(country);
+                });
+
+                dropdownList.appendChild(item);
+            });
+        }
+
+        function selectCountry(country) {
+            selectedCountry = country;
+            input.value = `${country.flag} ${country.name} (${country.shortCode})`;
+            clearBtn.style.display = 'flex';
+            submitBtn.disabled = false;
+            closeDropdown();
+        }
+
+        function clearSelection() {
+            selectedCountry = null;
+            input.value = '';
+            clearBtn.style.display = 'none';
+            submitBtn.disabled = true;
+            highlightedIndex = -1;
+            populateDropdown('');
+            input.focus();
+        }
+
+        function closeDropdown() {
+            dropdownList.classList.remove('show');
+            highlightedIndex = -1;
+        }
+
+        function openDropdown() {
+            dropdownList.classList.add('show');
+            populateDropdown(input.value.includes('(') ? '' : input.value);
+        }
+
+        // Event Listeners
+        input.addEventListener('focus', () => {
+            openDropdown();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.combobox-container')) {
+                closeDropdown();
+            }
+        });
+
+        input.addEventListener('input', () => {
+            // Show clear button when typing
+            clearBtn.style.display = input.value ? 'flex' : 'none';
+            
+            // If user deletes input, clear selectedCountry
+            if (!input.value) {
+                selectedCountry = null;
+                submitBtn.disabled = true;
+            }
+
+            highlightedIndex = 0; // Highlight first match by default
+            openDropdown();
+        });
+
+        clearBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            clearSelection();
+        });
+
+        // Keyboard Navigation support
+        input.addEventListener('keydown', (e) => {
+            const listItems = dropdownList.querySelectorAll('.dropdown-item');
+            
+            if (!dropdownList.classList.contains('show')) {
+                if (e.key === 'ArrowDown' || e.key === 'Enter') {
+                    openDropdown();
+                    e.preventDefault();
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                highlightedIndex = (highlightedIndex + 1) % activeItems.length;
+                updateHighlight(listItems);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                highlightedIndex = (highlightedIndex - 1 + activeItems.length) % activeItems.length;
+                updateHighlight(listItems);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (highlightedIndex >= 0 && highlightedIndex < activeItems.length) {
+                    selectCountry(activeItems[highlightedIndex]);
+                }
+            } else if (e.key === 'Escape') {
+                closeDropdown();
+                input.blur();
+            }
+        });
+
+        function updateHighlight(listItems) {
+            listItems.forEach((item, index) => {
+                if (index === highlightedIndex) {
+                    item.classList.add('highlighted');
+                    // Scroll active item into view
+                    item.scrollIntoView({ block: 'nearest' });
+                } else {
+                    item.classList.remove('highlighted');
+                }
+            });
+        }
+
+        function handleRedirect() {
+            if (selectedCountry) {
+                // Navigate directly to the redirection endpoint e.g., /TR or /US
+                window.location.href = '/' + selectedCountry.shortCode;
+            }
+        }
+    </script>
+</body>
+</html>
