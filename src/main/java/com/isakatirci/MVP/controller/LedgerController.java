@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.management.ManagementFactory;
@@ -63,6 +64,7 @@ public class LedgerController {
      * Get transfer details by transaction ID.
      */
     @GetMapping("/transfers/{transactionId}")
+    @Transactional(readOnly = true)
     public ResponseEntity<TransferResponse> getTransfer(@PathVariable String transactionId) {
         return transactionRepository.findByTransactionId(transactionId)
                 .map(txn -> {
@@ -85,6 +87,7 @@ public class LedgerController {
      * Get account balance.
      */
     @GetMapping("/accounts/{accountId}/balance")
+    @Transactional(readOnly = true)
     public ResponseEntity<Map<String, Object>> getBalance(@PathVariable String accountId) {
         return accountRepository.findByAccountId(accountId)
                 .map(account -> {

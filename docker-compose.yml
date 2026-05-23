@@ -10,6 +10,33 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./docker-init/init-replication.sql:/docker-entrypoint-initdb.d/init-replication.sql
+    networks:
+      - ledger-network
+    restart: unless-stopped
+
+  postgres-replica:
+    image: postgres:15-alpine
+    container_name: ledger-postgres-replica
+    environment:
+      PGPASSWORD: replicator_password
+    entrypoint: [ "sh", "-c" ]
+    command:
+      - |
+        until pg_isready -h postgres -p 5432 -U ledger_user; do
+          echo "Waiting for primary database..."
+          sleep 1
+        done
+        if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then
+          echo "Initializing replica..."
+          rm -rf /var/lib/postgresql/data/*
+          pg_basebackup -h postgres -D /var/lib/postgresql/data -U replicator -R
+        fi
+        exec docker-entrypoint.sh postgres
+    volumes:
+      - postgres_replica_data:/var/lib/postgresql/data
+    depends_on:
+      - postgres
     networks:
       - ledger-network
     restart: unless-stopped
@@ -18,9 +45,13 @@ services:
     image: eclipse-temurin:21-jdk-alpine
     working_dir: /app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ledger_db
-      SPRING_DATASOURCE_USERNAME: ledger_user
-      SPRING_DATASOURCE_PASSWORD: ledger_password
+      DB_WRITER_HOST: postgres
+      DB_WRITER_PORT: 5432
+      DB_READER_HOST: postgres-replica
+      DB_READER_PORT: 5432
+      DB_USER: ledger_user
+      DB_PASSWORD: ledger_password
+      DB_NAME: ledger_db
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
       SERVER_PORT: 8080
@@ -30,6 +61,7 @@ services:
       - ./target/MVP-0.0.1-SNAPSHOT.jar:/app/app.jar
     depends_on:
       - postgres
+      - postgres-replica
       - redis
     networks:
       - ledger-network
@@ -116,6 +148,8 @@ services:
 
 volumes:
   postgres_data:
+    driver: local
+  postgres_replica_data:
     driver: local
   nginx_logs:
     driver: local

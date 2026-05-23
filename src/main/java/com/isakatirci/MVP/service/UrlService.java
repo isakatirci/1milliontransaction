@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class UrlService {
     );
 
     @Cacheable(value = "urls", key = "#shortCode")
+    @Transactional(readOnly = true)
     public String resolve(String shortCode) {
         log.info("Resolving shortCode from database: {}", shortCode);
         return urlRepository.findByShortCode(shortCode.toUpperCase())

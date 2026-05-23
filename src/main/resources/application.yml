@@ -22,17 +22,30 @@ spring:
         order_inserts: true
         order_updates: true
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ledger_db}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:postgres}
-  hikari:
-    maximum-pool-size: 10
-    minimum-idle: 10
-    connection-timeout: 30000
-    idle-timeout: 600000
-    max-lifetime: 1800000
-    auto-commit: true
-    leak-detection-threshold: 30000
+    writer:
+      url: jdbc:postgresql://${DB_WRITER_HOST:localhost}:${DB_WRITER_PORT:5432}/${DB_NAME:ledger_db}
+      username: ${DB_USER:postgres}
+      password: ${DB_PASSWORD:postgres}
+      hikari:
+        maximum-pool-size: 10
+        minimum-idle: 10
+        connection-timeout: 30000
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        auto-commit: true
+        leak-detection-threshold: 30000
+    reader:
+      url: jdbc:postgresql://${DB_READER_HOST:localhost}:${DB_READER_PORT:5433}/${DB_NAME:ledger_db}
+      username: ${DB_USER:postgres}
+      password: ${DB_PASSWORD:postgres}
+      hikari:
+        maximum-pool-size: 10
+        minimum-idle: 10
+        connection-timeout: 30000
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        auto-commit: true
+        leak-detection-threshold: 30000
   sql:
     init:
       mode: always

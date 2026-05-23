@@ -10,6 +10,35 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./docker-init/init-replication.sql:/docker-entrypoint-initdb.d/init-replication.sql
+    networks:
+      - ledger-network
+    restart: unless-stopped
+
+  postgres-replica:
+    image: postgres:15-alpine
+    container_name: ledger-postgres-replica
+    environment:
+      PGPASSWORD: replicator_password
+    ports:
+      - "5433:5432"
+    entrypoint: [ "sh", "-c" ]
+    command:
+      - |
+        until pg_isready -h postgres -p 5432 -U ledger_user; do
+          echo "Waiting for primary database..."
+          sleep 1
+        done
+        if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then
+          echo "Initializing replica..."
+          rm -rf /var/lib/postgresql/data/*
+          pg_basebackup -h postgres -D /var/lib/postgresql/data -U replicator -R
+        fi
+        exec docker-entrypoint.sh postgres
+    volumes:
+      - postgres_replica_data:/var/lib/postgresql/data
+    depends_on:
+      - postgres
     networks:
       - ledger-network
     restart: unless-stopped
@@ -94,6 +123,8 @@ services:
 
 volumes:
   postgres_data:
+    driver: local
+  postgres_replica_data:
     driver: local
   nginx_logs:
     driver: local
